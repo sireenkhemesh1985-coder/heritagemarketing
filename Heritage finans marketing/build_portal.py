@@ -1,0 +1,3753 @@
+# -*- coding: utf-8 -*-
+"""
+Builds the complete single-page application index.html for Heritage Cafe & Bakery
+"""
+import json
+
+with open("portal_data.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+# Convert to JSON string for direct embedding if needed
+json_str = json.dumps(data, ensure_ascii=False)
+
+html_content = """<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heritage Cafe & Bakery — Finans, Sipariş & Pazarlama Portalı</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fbf8f3',
+              100: '#f5efe3',
+              200: '#ebdcc5',
+              300: '#dec2a1',
+              400: '#cfa276',
+              500: '#b8824f',
+              600: '#9d663b',
+              700: '#7e4d2e',
+              800: '#643c26',
+              900: '#4e2f20',
+              gold: '#d4af37',
+              dark: '#12151b',
+              card: '#1a1f29',
+              border: '#2a3140'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts & Lucide Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0d1117;
+      color: #e6edf3;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #161b22;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #30363d;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #484f58;
+    }
+    .glass-card {
+      background: rgba(22, 27, 34, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(48, 54, 61, 0.7);
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #f5d061 0%, #d4af37 50%, #b8824f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .badge-trendyol {
+      background-color: rgba(249, 115, 22, 0.15);
+      color: #fb923c;
+      border: 1px solid rgba(249, 115, 22, 0.3);
+    }
+    .badge-yemeksepeti {
+      background-color: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .badge-heritage {
+      background-color: rgba(212, 175, 55, 0.15);
+      color: #f5d061;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- ========================================== -->
+  <!-- LOGIN SCREEN (YÖNETİCİ GİRİŞ EKRANI) -->
+  <!-- ========================================== -->
+  <div id="login-container" class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-[#0a0d14] z-50">
+    <!-- Ambient Glow Background Blobs -->
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-amber-500/15 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-emerald-500/15 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-slate-900/60 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Login Glass Card -->
+    <div class="max-w-md w-full glass-card rounded-3xl p-8 border border-amber-500/30 shadow-2xl relative z-10 space-y-6 transition-all duration-300">
+      
+      <!-- Brand Logo & Header -->
+      <div class="text-center space-y-3">
+        <div class="inline-flex w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 p-0.5 shadow-xl shadow-amber-900/40 items-center justify-center">
+          <div class="w-full h-full bg-[#12161f] rounded-[14px] flex items-center justify-center">
+            <span class="text-amber-400 font-black text-3xl tracking-tighter">H</span>
+          </div>
+        </div>
+        <div>
+          <h2 class="text-2xl font-black text-white tracking-tight flex items-center justify-center gap-2">
+            Heritage Cafe & Bakery
+          </h2>
+          <div class="flex items-center justify-center gap-2 mt-1.5">
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">
+              Ankara / Çankaya
+            </span>
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+              Yönetici Portalı
+            </span>
+          </div>
+        </div>
+        <p class="text-xs text-slate-400 pt-0.5">
+          Finansal Yönetim, Sipariş Analitiği & Büyüme Sistemi
+        </p>
+      </div>
+
+      <!-- Error Alert Box -->
+      <div id="login-error" class="hidden p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 transition">
+        <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 text-rose-400"></i>
+        <span id="login-error-msg" class="leading-tight">Kullanıcı adı veya şifre hatalı!</span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+        <!-- Username Input -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-slate-300 block">Kullanıcı Adı</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="user" class="w-4 h-4"></i>
+            </div>
+            <input type="text" id="login-username" required autocomplete="username" placeholder="heritage" class="w-full pl-10 pr-4 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition">
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-semibold text-slate-300 block">Şifre</label>
+            <button type="button" onclick="showPasswordHint()" class="text-[11px] text-slate-400 hover:text-amber-300 transition">Şifremi unuttum?</button>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+            </div>
+            <input type="password" id="login-password" required autocomplete="current-password" placeholder="••••••••" class="w-full pl-10 pr-10 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition">
+            <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-200 transition focus:outline-none">
+              <i data-lucide="eye" id="password-toggle-icon" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me & Security Badge -->
+        <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
+          <label class="flex items-center space-x-2 cursor-pointer select-none">
+            <input type="checkbox" id="login-remember" checked class="rounded border-slate-700 bg-slate-900 text-amber-500 focus:ring-amber-500/30">
+            <span>Beni Hatırla</span>
+          </label>
+          <span class="text-[11px] text-emerald-400 font-medium flex items-center gap-1">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 256-bit Güvenli
+          </span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="login-submit-btn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/25 flex items-center justify-center gap-2 transition duration-200 transform hover:-translate-y-0.5 cursor-pointer">
+          <span>Giriş Yap</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </form>
+
+      <!-- Demo / Otomatik Doldurma Kutusu -->
+      <div class="pt-4 border-t border-slate-800/80 space-y-2.5">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-400 font-medium flex items-center gap-1.5">
+            <i data-lucide="key-round" class="w-3.5 h-3.5 text-amber-400"></i>
+            Tanımlı Giriş Bilgileri:
+          </span>
+          <button type="button" onclick="fillDemoCredentials('heritage', 'heritage2026')" class="text-[11px] text-amber-400 hover:text-amber-300 font-bold underline underline-offset-2 transition cursor-pointer">
+            Tek Tıkla Doldur &rarr;
+          </button>
+        </div>
+        <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-[11px] text-slate-300 space-y-1.5 font-mono">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 font-sans">Kullanıcı Adı:</span>
+            <span class="text-amber-300 font-bold">heritage</span>
+            <span class="text-slate-400 font-sans text-[10px]">veya</span>
+            <span class="text-amber-300 font-bold">admin</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 font-sans">Şifre:</span>
+            <span class="text-emerald-300 font-bold">heritage2026</span>
+            <span class="text-slate-400 font-sans text-[10px]">veya</span>
+            <span class="text-emerald-300 font-bold">admin2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MAIN APP CONTAINER (GİRİŞ YAPILINCA GÖRÜNÜR) -->
+  <!-- ========================================== -->
+  <div id="app-container" class="hidden">
+
+  <!-- Top Navigation & Brand Header -->
+  <header class="border-b border-slate-800 bg-[#12161f]/95 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 p-0.5 shadow-lg shadow-amber-900/30 flex items-center justify-center">
+            <div class="w-full h-full bg-[#12161f] rounded-[10px] flex items-center justify-center">
+              <span class="text-amber-400 font-extrabold text-2xl tracking-tighter">H</span>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                Heritage Cafe & Bakery
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">Ankara / Çankaya</span>
+              </h1>
+            </div>
+            <p class="text-xs text-slate-400">Finansal Yönetim, Sipariş Analitiği & Büyüme Portalı (Temmuz – Ekim 2026)</p>
+          </div>
+        </div>
+
+        <!-- Month Filter Selector & Action Buttons -->
+        <div class="flex items-center space-x-3">
+          <div class="flex items-center bg-slate-900/90 rounded-lg p-1 border border-slate-800">
+            <span class="text-xs font-medium text-slate-400 px-2 flex items-center gap-1">
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-400"></i> Dönem:
+            </span>
+            <select id="global-month-filter" onchange="onGlobalFilterChange()" class="bg-slate-800 text-xs font-semibold text-slate-200 rounded px-2.5 py-1.5 border border-slate-700 focus:outline-none focus:ring-1 focus:ring-amber-500">
+              <option value="all">Tüm Dönem (4 Ay Toplamı)</option>
+              <option value="2026-07">Temmuz 2026</option>
+              <option value="2026-08">Ağustos 2026</option>
+              <option value="2026-09">Eylül 2026</option>
+              <option value="2026-10">Ekim 2026</option>
+            </select>
+          </div>
+
+          <button onclick="exportTableToCSV()" class="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition shadow-sm">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>CSV İndir</span>
+          </button>
+          
+          <button onclick="window.print()" class="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition shadow-sm">
+            <i data-lucide="printer" class="w-3.5 h-3.5 text-blue-400"></i>
+            <span>Yazdır</span>
+          </button>
+
+          <!-- Logged in User & Logout Button -->
+          <div class="flex items-center space-x-2 pl-2 border-l border-slate-800">
+            <div class="hidden sm:flex items-center space-x-1.5 px-2.5 py-1.5 text-xs bg-slate-900/90 border border-slate-800 rounded-lg text-slate-300">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span id="current-user-display" class="font-semibold text-white">heritage</span>
+            </div>
+
+            <button onclick="handleLogout()" class="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 rounded-lg border border-rose-500/30 transition shadow-sm cursor-pointer" title="Güvenli Çıkış">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span>Çıkış</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <nav class="flex space-x-1 sm:space-x-2 border-t border-slate-800/80 py-2.5 overflow-x-auto custom-scrollbar">
+        <button onclick="switchTab('tab-finance')" id="nav-tab-finance" class="tab-btn active px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 transition whitespace-nowrap bg-amber-500/15 text-amber-400 border border-amber-500/30">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+          <span>Finans & Günlük Özet</span>
+        </button>
+        <button onclick="switchTab('tab-orders')" id="nav-tab-orders" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-transparent">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span>Sipariş Listesi</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-800 text-slate-300 border border-slate-700" id="order-count-badge">326+</span>
+        </button>
+        <button onclick="switchTab('tab-marketing')" id="nav-tab-marketing" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-transparent">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span>Pazarlama & Menü Analitiği</span>
+        </button>
+        <button onclick="switchTab('tab-strategy')" id="nav-tab-strategy" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-transparent">
+          <i data-lucide="target" class="w-4 h-4"></i>
+          <span>Satış & Büyüme Stratejisi</span>
+        </button>
+        <button onclick="switchTab('tab-forecast')" id="nav-tab-forecast" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-transparent">
+          <i data-lucide="trending-up" class="w-4 h-4 text-purple-400"></i>
+          <span>Tahminleme & Risk Analizi</span>
+        </button>
+        <button onclick="switchTab('tab-salary')" id="nav-tab-salary" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 transition whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-transparent">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span>Maaşlar & Kâr Simülatörü</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: FINANSAL GENEL BAKIŞ & GÜNLÜK ÖZET -->
+    <!-- ========================================== -->
+    <section id="tab-finance" class="tab-content space-y-8">
+      
+      <!-- Top Highlight Banner: Commission Erosion Alert -->
+      <div class="glass-card rounded-2xl p-5 border border-amber-500/30 bg-gradient-to-r from-amber-950/30 via-slate-900/60 to-red-950/20 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center shrink-0">
+            <i data-lucide="alert-triangle" class="w-6 h-6 text-amber-400"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+              Kritik Finansal Tespit: Platform Komisyon Erozyonu (%38.8)
+            </h3>
+            <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">
+              Trendyol Go (%38.7) ve Yemeksepeti (%39.3) siparişlerinde brüt 174.948 ₺ satıştan tam <span class="font-bold text-red-400">67.855,47 ₺</span> kesinti yapılmıştır. Cironun %78.2'si dükkan kasasından doğrudan gelmektedir.
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="switchTab('tab-strategy')" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition shadow">
+            Komisyon Kurtarma Planını İncele &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 1. Toplam Brüt Satış -->
+        <div class="glass-card rounded-2xl p-5 relative overflow-hidden group hover:border-slate-700 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400">Toplam Brüt Satış</span>
+            <div class="p-2 rounded-lg bg-blue-500/10 text-blue-400">
+              <i data-lucide="receipt" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-2xl font-black tracking-tight text-white" id="kpi-brut-sales">804.075,00 ₺</div>
+            <div class="text-xs text-slate-400 mt-1 flex items-center gap-1">
+              <span class="text-blue-400 font-medium">Kasa + Trendyol + Y.sepeti</span>
+            </div>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
+        </div>
+
+        <!-- 2. Net Gelir / Hakediş -->
+        <div class="glass-card rounded-2xl p-5 relative overflow-hidden group hover:border-slate-700 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400">Net Gelir (Hakedişler)</span>
+            <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+              <i data-lucide="wallet" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-2xl font-black tracking-tight text-emerald-400" id="kpi-net-income">736.219,53 ₺</div>
+            <div class="text-xs text-slate-400 mt-1 flex items-center gap-1">
+              <span class="text-red-400 font-medium">-67.855 ₺ (%8.4)</span> platform kesintisi
+            </div>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
+        </div>
+
+        <!-- 3. Toplam Giderler -->
+        <div class="glass-card rounded-2xl p-5 relative overflow-hidden group hover:border-slate-700 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400">Tedarik & İşletme Gideri</span>
+            <div class="p-2 rounded-lg bg-rose-500/10 text-rose-400">
+              <i data-lucide="trending-down" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-2xl font-black tracking-tight text-rose-400" id="kpi-total-expenses">328.018,05 ₺</div>
+            <div class="text-xs text-slate-400 mt-1 flex items-center gap-1">
+              <span>98 Fatura (CNR, Manav, Migros, Diğer)</span>
+            </div>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-red-500"></div>
+        </div>
+
+        <!-- 4. Nihai Net Kâr (Maaşlar Dahil / Dinamik) -->
+        <div class="glass-card rounded-2xl p-5 relative overflow-hidden group hover:border-slate-700 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400">Nihai Net Kâr</span>
+            <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400">
+              <i data-lucide="pie-chart" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-2xl font-black tracking-tight text-amber-400" id="kpi-net-profit">148.201,48 ₺</div>
+            <div class="text-xs text-slate-400 mt-1 flex items-center justify-between">
+              <span id="kpi-salary-info">Maaşlar: 260.000 ₺</span>
+              <span class="text-emerald-400 font-bold" id="kpi-net-margin">%20,1 Marj</span>
+            </div>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-yellow-500"></div>
+        </div>
+      </div>
+
+      <!-- Ay Ay Finansal Kategori Tablosu (Gider, Gelir, Net Kâr, Maaşlar) -->
+      <div class="glass-card rounded-2xl p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="calendar-days" class="w-5 h-5 text-amber-400"></i>
+              Aylık Finansal Özet & Kâr Dağılım Tablosu
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Gelir, Gider, Maaşlar ve Net Kâr'ın ay bazında tam dökümü</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-md border border-slate-700">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block mr-1"></span> Muhasebe Onaylı
+            </span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar mt-4">
+          <table class="w-full text-left text-xs whitespace-nowrap">
+            <thead>
+              <tr class="text-slate-400 border-b border-slate-800 font-semibold bg-slate-900/50">
+                <th class="py-3 px-3">Dönem / Ay</th>
+                <th class="py-3 px-3">Kasa Geliri (Dükkan)</th>
+                <th class="py-3 px-3">Trendyol (Brüt / Net)</th>
+                <th class="py-3 px-3">Yemeksepeti (Brüt / Net)</th>
+                <th class="py-3 px-3 text-right">Net Hakediş / Gelir</th>
+                <th class="py-3 px-3 text-right">İşletme Gideri</th>
+                <th class="py-3 px-3 text-right text-amber-400">Personel Maaşları</th>
+                <th class="py-3 px-3 text-right">Faaliyet Kârı (Maaş Öncesi)</th>
+                <th class="py-3 px-3 text-right text-emerald-400">Nihai Net Kâr</th>
+                <th class="py-3 px-3 text-center">Net Marj</th>
+              </tr>
+            </thead>
+            <tbody id="monthly-finance-tbody" class="divide-y divide-slate-800/60 font-medium">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+            <tfoot id="monthly-finance-tfoot" class="border-t-2 border-slate-700 bg-slate-900/80 font-bold text-slate-100">
+              <!-- Dynamically populated by JS -->
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Chart 1: Aylık Karşılaştırma -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-800 lg:col-span-2">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i data-lucide="bar-chart-2" class="w-4 h-4 text-amber-400"></i>
+                Aylık Gelir vs Gider vs Net Kâr Trendi
+              </h3>
+              <p class="text-xs text-slate-400">4 Aylık ciro ve kârlılık seyri (TL)</p>
+            </div>
+          </div>
+          <div class="mt-4 h-72">
+            <canvas id="monthlyChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Satış Kanalları Dağılımı -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-800">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i>
+                Satış Kanalları Payı
+              </h3>
+              <p class="text-xs text-slate-400">Kasa vs Trendyol vs Yemeksepeti</p>
+            </div>
+          </div>
+          <div class="mt-4 h-72 flex items-center justify-center">
+            <canvas id="channelsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products & Daily Summary Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Top Selling Products (Top 10) -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-800 lg:col-span-1">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
+                En Çok Satılan Ürünler (Top 10)
+              </h3>
+              <p class="text-xs text-slate-400">Ciro büyüklüğüne göre sıralama</p>
+            </div>
+            <button onclick="switchTab('tab-marketing')" class="text-xs text-amber-400 hover:text-amber-300 font-semibold">Tümü &rarr;</button>
+          </div>
+          <div class="mt-3 space-y-2.5 max-h-[460px] overflow-y-auto custom-scrollbar pr-1" id="top-products-list">
+            <!-- Dynamically populated by JS -->
+          </div>
+        </div>
+
+        <!-- Günlük Özet Tablosu (Daily Summary) -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-800 lg:col-span-2">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i data-lucide="clock" class="w-4 h-4 text-blue-400"></i>
+                Günlük Sipariş & Hakediş Özeti
+              </h3>
+              <p class="text-xs text-slate-400">Platformların gün gün sipariş ve hakediş performansı (98 Gün)</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <input type="text" id="daily-search" oninput="filterDailyTable()" placeholder="Gün ara (örn: 01.07)..." class="bg-slate-900 text-xs text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:ring-1 focus:ring-amber-500 w-44">
+            </div>
+          </div>
+          
+          <div class="overflow-x-auto custom-scrollbar mt-3 max-h-[420px]">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead class="sticky top-0 bg-slate-900 border-b border-slate-800 text-slate-400 font-semibold z-10">
+                <tr>
+                  <th class="py-2.5 px-3">Tarih / Gün</th>
+                  <th class="py-2.5 px-3 text-center">Sipariş</th>
+                  <th class="py-2.5 px-3 text-right">Brüt Tutar</th>
+                  <th class="py-2.5 px-3 text-right">Kesinti (Kom+Taşıma)</th>
+                  <th class="py-2.5 px-3 text-right text-emerald-400">Net Hakediş</th>
+                  <th class="py-2.5 px-3 text-center">Kesinti %</th>
+                  <th class="py-2.5 px-3 text-right">Ort. Sepet (AOV)</th>
+                </tr>
+              </thead>
+              <tbody id="daily-summary-tbody" class="divide-y divide-slate-800/60 font-medium">
+                <!-- Dynamically populated by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-3 flex items-center justify-between text-xs text-slate-400 px-1" id="daily-summary-pagination">
+            <!-- Pagination info -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB 2: SİPARİŞ LİSTESİ (PLATFORM & KASA)  -->
+    <!-- ========================================== -->
+    <section id="tab-orders" class="tab-content space-y-6 hidden">
+      <div class="glass-card rounded-2xl p-6 border border-slate-800">
+        
+        <!-- Header & Control Bar -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="clipboard-list" class="w-5 h-5 text-amber-400"></i>
+              Detaylı Sipariş & Satış Listesi
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">
+              Trendyol Go, Yemeksepeti ve Heritage (Dükkan/Kasa) siparişlerinin tam dökümü
+            </p>
+          </div>
+
+          <!-- Filters -->
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Platform Filter Pills -->
+            <div class="flex items-center bg-slate-900 rounded-lg p-1 border border-slate-800 text-xs">
+              <button onclick="setPlatformFilter('all')" class="platform-filter-btn px-2.5 py-1 rounded font-semibold text-amber-400 bg-amber-500/15" data-val="all">Tümü</button>
+              <button onclick="setPlatformFilter('Trendyol Go')" class="platform-filter-btn px-2.5 py-1 rounded font-medium text-slate-400 hover:text-slate-200" data-val="Trendyol Go">Trendyol Go</button>
+              <button onclick="setPlatformFilter('Yemeksepeti')" class="platform-filter-btn px-2.5 py-1 rounded font-medium text-slate-400 hover:text-slate-200" data-val="Yemeksepeti">Yemeksepeti</button>
+              <button onclick="setPlatformFilter('Heritage')" class="platform-filter-btn px-2.5 py-1 rounded font-medium text-slate-400 hover:text-slate-200" data-val="Heritage">Heritage (Kasa)</button>
+            </div>
+
+            <!-- Status Filter -->
+            <select id="orders-status-filter" onchange="filterOrdersTable()" class="bg-slate-900 text-xs text-slate-300 rounded-lg px-2.5 py-1.5 border border-slate-800 focus:outline-none focus:ring-1 focus:ring-amber-500">
+              <option value="all">Tüm Durumlar</option>
+              <option value="Tamam">Tamamlandı</option>
+              <option value="İptal">İptal Edildi</option>
+            </select>
+
+            <!-- Search input -->
+            <div class="relative">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5"></i>
+              <input type="text" id="orders-search-input" oninput="filterOrdersTable()" placeholder="Sipariş no, ürün veya tarih ara..." class="bg-slate-900 text-xs text-slate-200 pl-8 pr-3 py-1.5 rounded-lg border border-slate-800 focus:outline-none focus:ring-1 focus:ring-amber-500 w-56">
+            </div>
+
+            <!-- Export to CSV -->
+            <button onclick="exportOrdersToCSV()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600/30 transition flex items-center gap-1.5">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+              <span>Excel/CSV İndir</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Metrics bar for current filtered orders -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 py-4 border-b border-slate-800/60 text-xs">
+          <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400">Listelenen Sipariş:</span>
+            <div class="text-base font-bold text-white mt-0.5" id="filtered-orders-count">330</div>
+          </div>
+          <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400">Brüt Tutar Toplamı:</span>
+            <div class="text-base font-bold text-blue-400 mt-0.5" id="filtered-orders-gross">804.075,00 ₺</div>
+          </div>
+          <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400">Toplam Kesinti Tutarı:</span>
+            <div class="text-base font-bold text-rose-400 mt-0.5" id="filtered-orders-deduction">67.855,47 ₺</div>
+          </div>
+          <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400">Net Hakediş Toplamı:</span>
+            <div class="text-base font-bold text-emerald-400 mt-0.5" id="filtered-orders-net">736.219,53 ₺</div>
+          </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="overflow-x-auto custom-scrollbar mt-4">
+          <table class="w-full text-left text-xs whitespace-nowrap" id="main-orders-table">
+            <thead>
+              <tr class="bg-slate-900 text-slate-400 font-semibold border-b border-slate-800">
+                <th class="py-3 px-3">Tarih</th>
+                <th class="py-3 px-3">Platform</th>
+                <th class="py-3 px-3">Sipariş No</th>
+                <th class="py-3 px-3 max-w-[280px]">Ürünler</th>
+                <th class="py-3 px-3 text-right">Tutar (Brüt)</th>
+                <th class="py-3 px-3 text-right">Komisyon</th>
+                <th class="py-3 px-3 text-right">Taşıma / Hizmet</th>
+                <th class="py-3 px-3 text-right text-emerald-400">Net Hakediş</th>
+                <th class="py-3 px-3 text-center">Kesinti %</th>
+                <th class="py-3 px-3 text-center">Durum</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-tbody" class="divide-y divide-slate-800/60 font-medium">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Pagination Controls -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 pt-4 border-t border-slate-800 text-xs text-slate-400">
+          <div class="flex items-center space-x-2">
+            <span>Sayfa başına satır:</span>
+            <select id="orders-page-size" onchange="changeOrdersPageSize()" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200">
+              <option value="15">15</option>
+              <option value="30" selected>30</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <span id="orders-pagination-info" class="ml-2 font-medium text-slate-300">1 - 30 / 330 gösteriliyor</span>
+          </div>
+
+          <div class="flex items-center space-x-1" id="orders-pagination-buttons">
+            <!-- Buttons generated dynamically -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB 3: PAZARLAMA (MARKETING) & MENÜ ANALİTİK -->
+    <!-- ========================================== -->
+    <section id="tab-marketing" class="tab-content space-y-8 hidden">
+      
+      <!-- Section 1: Best Sellers vs Underperforming Products Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- En İyi Satılan Ürünler (Best Sellers) -->
+        <div class="glass-card rounded-2xl p-6 border border-emerald-500/30 bg-gradient-to-b from-emerald-950/10 to-slate-900">
+          <div class="flex items-center justify-between pb-4 border-b border-emerald-500/20">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
+                <i data-lucide="crown" class="w-5 h-5 text-emerald-400"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">En İyi Satılan Ürünler (Yıldızlar)</h3>
+                <p class="text-xs text-slate-400">Yüksek ciro ve sipariş hacmi yaratan lokomotif ürünler</p>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">Ciro Liderleri</span>
+          </div>
+
+          <div class="mt-4 space-y-3.5">
+            <!-- Item 1 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                  <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-black text-xs flex items-center justify-center">1</span>
+                  <div>
+                    <h4 class="text-sm font-bold text-white">Americano</h4>
+                    <span class="text-[11px] text-slate-400">Kahveler · Birim: ~241 ₺</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-black text-emerald-400">59.610,00 ₺</div>
+                  <span class="text-[11px] text-slate-400">247 Adet (%9,5 ciro payı)</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 bg-slate-800/50 p-2 rounded-lg">
+                <strong>Pazarlama Değerlendirmesi:</strong> Müdavim müşterilerin vazgeçilmezi. Yanında New York Cookie veya Madeleine ikram/çapraz satışı için en ideal taşıyıcı içecek.
+              </p>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                  <span class="w-6 h-6 rounded-full bg-slate-800 text-slate-300 font-black text-xs flex items-center justify-center">2</span>
+                  <div>
+                    <h4 class="text-sm font-bold text-white">Çay</h4>
+                    <span class="text-[11px] text-slate-400">Sıcak İçecekler · Birim: ~50 ₺</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-black text-emerald-400">38.992,50 ₺</div>
+                  <span class="text-[11px] text-slate-400">780 Adet (Adet Şampiyonu!)</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 bg-slate-800/50 p-2 rounded-lg">
+                <strong>Pazarlama Değerlendirmesi:</strong> Masada kalma süresini ve dükkan sirkülasyonunu sağlıyor. Çayın yanına Samsa veya Dereotlu Poğaça eşleştirmesi ile sepet büyütülmeli.
+              </p>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                  <span class="w-6 h-6 rounded-full bg-slate-800 text-slate-300 font-black text-xs flex items-center justify-center">3</span>
+                  <div>
+                    <h4 class="text-sm font-bold text-white">Kurabiye (New York Cookies)</h4>
+                    <span class="text-[11px] text-slate-400">Tatlılar · Lotus, Pistachio, Bounty</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-black text-emerald-400">35.248,50 ₺</div>
+                  <span class="text-[11px] text-slate-400">168 Adet · %5,6 Pay</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 bg-slate-800/50 p-2 rounded-lg">
+                <strong>Pazarlama Değerlendirmesi:</strong> Sosyal medyada en çok fotoğraflanan tatlı. Kırıldığında içinden akan dolgusuyla Reels/TikTok için bir numaralı içerik malzemesi.
+              </p>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                  <span class="w-6 h-6 rounded-full bg-slate-800 text-slate-300 font-black text-xs flex items-center justify-center">4</span>
+                  <div>
+                    <h4 class="text-sm font-bold text-white">Samsa (Ispanaklı & Kıymalı)</h4>
+                    <span class="text-[11px] text-slate-400">Tuzlular / Hamur İşi · 60 ₺ / 100 ₺</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-black text-emerald-400">25.632,00 ₺</div>
+                  <span class="text-[11px] text-slate-400">325 Adet Toplam</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 bg-slate-800/50 p-2 rounded-lg">
+                <strong>Pazarlama Değerlendirmesi:</strong> Heritage'ın en büyük rekabet avantajı ve özgün imza ürünü! Başka kafelerde bulunmayan el açması çıtır lezzet.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- En Az Satılan Ürünler (Underperforming / Kırmızı Alarmlar) -->
+        <div class="glass-card rounded-2xl p-6 border border-rose-500/30 bg-gradient-to-b from-rose-950/10 to-slate-900">
+          <div class="flex items-center justify-between pb-4 border-b border-rose-500/20">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center">
+                <i data-lucide="alert-octagon" class="w-5 h-5 text-rose-400"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">En Az Satılan Ürünler & Problem Analizi</h3>
+                <p class="text-xs text-slate-400">Düşük hacimli veya menüde atıl kalan ürünler</p>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30">Müdahale Gerekli</span>
+          </div>
+
+          <div class="mt-4 space-y-3.5">
+            <!-- Item 1 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-sm font-bold text-white">Bumblebee Coffee (Portakallı Soğuk Kahve)</h4>
+                  <span class="text-[11px] text-slate-400">Soğuk İçecekler · 250 ₺</span>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-black text-rose-400">Sadece 3 Adet (750 ₺)</div>
+                  <span class="text-[11px] text-rose-300">4 Ayda 3 Satış!</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 bg-slate-800/50 p-2 rounded-lg">
+                <strong>Neden Satmıyor?:</strong> Menüde sadece "Bumble Bee" yazıyor; ne olduğu, taze sıkılmış portakal suyu ve espresso katmanları açıklanmıyor. Fotoğrafsız olduğu için müşteri 250 ₺ riske atmıyor.
+              </p>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-sm font-bold text-white">Cheesecake (Lotus Biscoff)</h4>
+                  <span class="text-[11px] text-slate-400">Tatlılar · 290 ₺</span>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-black text-rose-400">Sadece 6 Adet (1.740 ₺)</div>
+                  <span class="text-[11px] text-rose-300">Ciddi Anomali</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 bg-slate-800/50 p-2 rounded-lg">
+                <strong>Neden Satmıyor?:</strong> Türkiye'de cheesecake en çok satan tatlı olmasına rağmen 4 ayda 6 adet satmış. Vitrinde sergilenmiyor veya San Sebastian gibi akışkan çikolatalı versiyonu olmadığı için geride kalıyor.
+              </p>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-sm font-bold text-white">Glace Coffee (Dondurmalı) & Sıcak Çikolata</h4>
+                  <span class="text-[11px] text-slate-400">İçecekler · 250 ₺ / 200 ₺</span>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-black text-rose-400">4'er Adet</div>
+                  <span class="text-[11px] text-slate-400">Düşük Talep</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 bg-slate-800/50 p-2 rounded-lg">
+                <strong>Neden Satmıyor?:</strong> İtalyan Affogato sunumu şeklinde menüye eklenmeli ve kaliteli Maraş/İtalyan vanilyalı dondurma ile masada espresso dökülerek servis edilmeli.
+              </p>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-sm font-bold text-white">Sade Soğuk Sandviç (200 ₺)</h4>
+                  <span class="text-[11px] text-slate-400">Tuzlular</span>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-black text-rose-400">11 Adet (2.200 ₺)</div>
+                  <span class="text-[11px] text-slate-400">Düşük Tercih</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 bg-slate-800/50 p-2 rounded-lg">
+                <strong>Neden Satmıyor?:</strong> Müşteriler 220-250 ₺'ye sıcacık Focaccia Pesto Tost varken soğuk sade sandviç seçmiyor. Menüden çıkarılarak focaccia çeşitlerine odaklanılmalı.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Section 2: Turkey Market Recommendations & Missing Products -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Türkiye Pazarı İçin En Tavsiye Edilen Ürünler -->
+        <div class="glass-card rounded-2xl p-6 border border-amber-500/30 bg-slate-900/90">
+          <div class="flex items-center space-x-3 pb-4 border-b border-slate-800">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center">
+              <span class="text-xl">🇹🇷</span>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Türkiye Pazarı İçin En Tavsiye Edilen Ürünler</h3>
+              <p class="text-xs text-slate-400">Türk kafe kültüründe ve 3. nesil mekanlarda ciro rekoru kıran trendler</p>
+            </div>
+          </div>
+
+          <div class="mt-4 space-y-4">
+            <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-amber-400 flex items-center gap-1.5">
+                  <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
+                  1. Akışkan Sıcak Belçika Çikolatalı San Sebastian Cheesecake
+                </h4>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-500/10 text-amber-300">Önerilen: 320 ₺</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Türkiye'de son 5 yılın tartışmasız 1 numaralı tatlı trendi. Heritage'da zaten Belçika çikolatası var. Müşteri masasında sıcak eritilmiş Belçika sütlü çikolatası akıtılarak servis edilen fırınlanmış yanık San Sebastian, Instagram'da anında viral olur ve Lotus Cheesecake'in yerini doldurur.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-amber-400 flex items-center gap-1.5">
+                  <i data-lucide="sparkle" class="w-4 h-4 text-amber-400"></i>
+                  2. Artisan Antep Fıstıklı Dubai Cookie & Tatlı Barı
+                </h4>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-500/10 text-amber-300">Önerilen: 260 ₺</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Türkiye ve global pazarda fırtına estiren çıtır kavrulmuş kadayıf + hakiki Antep fıstığı ezmesi + Belçika çikolatası dolgusu. Heritage'ın el yapımı New York Cookie hamuru ile birleştiğinde (Dubai Cookie) Ankara Çankaya'da önünde kuyruk oluşturacak bir talep yaratır.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-amber-400 flex items-center gap-1.5">
+                  <i data-lucide="coffee" class="w-4 h-4 text-amber-400"></i>
+                  3. İki Kişilik Heritage Artisan Focaccia Brunch Tabağı
+                </h4>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-500/10 text-amber-300">Önerilen: 750 ₺</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Türk insanı hafta sonu kahvaltısına bayılır. Menüdeki tek tek satılan yumurta (1.470 ₺) ve sade omlet yerine; fırından yeni çıkmış sıcak focaccia ekmeği, füme dana cotto, Gouda ve lor peyniri, ev yapımı pesto & biber sosu, sınırsız ince belli çay ile donatılmış gurme kahvaltı tabağı hafta sonu cirosunu ikiye katlar.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listede Olmayan / Menüde Eksik Olan Fırsat Ürünleri -->
+        <div class="glass-card rounded-2xl p-6 border border-blue-500/30 bg-slate-900/90">
+          <div class="flex items-center space-x-3 pb-4 border-b border-slate-800">
+            <div class="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center">
+              <i data-lucide="lightbulb" class="w-5 h-5 text-blue-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Listede Olmayan Tavsiye Edilen Fırsat Ürünleri</h3>
+              <p class="text-xs text-slate-400">Menüde bulunmayan ama Bakery konseptinin olmazsa olmazı 4 ürün</p>
+            </div>
+          </div>
+
+          <div class="mt-4 space-y-4">
+            <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-blue-400 flex items-center gap-1.5">
+                  <i data-lucide="croissant" class="w-4 h-4 text-blue-400"></i>
+                  1. Fransız Tereyağlı Kruvasan (Croissant & Kruvasan Sandviç)
+                </h4>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/10 text-blue-300">Önerilen: 160 – 290 ₺</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Adı <em>"Heritage Cafe & Bakery"</em> olan bir mekanda kruvasan bulunmaması en büyük stratejik boşluktur. Sabah 08:00 - 11:00 arası sade, bademli ve çikolatalı kruvasan; öğle vakti ise füme etli kruvasan sandviç sabah kahve cirosunu anında %35-40 artıracaktır.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-blue-400 flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-blue-400"></i>
+                  2. Ceremonial Matcha Latte & Iced Strawberry Matcha
+                </h4>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/10 text-blue-300">Önerilen: 240 ₺</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Özellikle genç kadınlar, üniversite öğrencileri ve sağlık bilincine sahip kitle arasında Ankara'da çılgınca aranan bir ürün. Glutensiz Bagel ve Yeşil Detox satan bir kafenin Matcha Latte ve çilek püreli Soğuk Matcha sunması dükkana yepyeni bir genç müşteri akını çeker.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-blue-400 flex items-center gap-1.5">
+                  <i data-lucide="utensils" class="w-4 h-4 text-blue-400"></i>
+                  3. Marine Izgara Tavuklu & Pestolu Sıcak Focaccia Sandviç
+                </h4>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/10 text-blue-300">Önerilen: 320 ₺</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Menüdeki Gurme Dana Cotto (750 ₺) ve Gurme Füme Trüf (690 ₺) fiyat bariyeri nedeniyle çok az satıyor (toplam 24 adet). 300 - 320 ₺ bandında doyurucu marine ızgara tavuk, eritilmiş mozzarella ve ev yapımı pesto soslu sıcak focaccia çalışan beyaz yakalılar için 1 numaralı öğle yemeği olur.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Section 3: Social Media Video & Ads Strategy (5 Complete Reels/TikTok Scripts) -->
+      <div class="glass-card rounded-2xl p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-800">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="video" class="w-5 h-5 text-rose-400"></i>
+              Sosyal Medya Reklam ve Video (Reels / TikTok) Senaryoları
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">Yüksek izlenme ve etkileşim getirecek 5 adet çekime hazır video kurgusu</p>
+          </div>
+          <span class="text-xs text-slate-400 bg-slate-800 px-3 py-1 rounded-lg border border-slate-700">Meta & TikTok Ads Ready</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+          
+          <!-- Video 1 -->
+          <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-800 flex flex-col justify-between hover:border-amber-500/40 transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">Video 1 · Viral ASMR</span>
+                <span class="text-[11px] text-slate-400">Süre: 12 sn</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">"Çikolata Şelalesi & New York Cookie"</h4>
+              <div class="text-xs text-slate-300 space-y-1.5">
+                <p><span class="text-amber-400 font-semibold">Hook (0-2 sn):</span> "Ankara'da gerçek Belçika çikolatasıyla yapılan kurabiyeyi gördünüz mü?"</p>
+                <p><span class="text-blue-400 font-semibold">Görsel:</span> Kurabiye ikiye ayrılır, içinden akışkan sıcak fıstık/Lotus kreması süzülür. Trifle üzerine sıcak çikolata dökülür (Makro çekim).</p>
+                <p><span class="text-emerald-400 font-semibold">Ses/Müzik:</span> ASMR çıtırtı sesi + trend lo-fi jazz beat.</p>
+                <p><span class="text-rose-400 font-semibold">CTA (Kapanış):</span> "Tatlı krizine gireceğin arkadaşına gönder! 📍 Reşit Galip No:18 Çankaya"</p>
+              </div>
+            </div>
+            <button onclick="copyScript(1)" class="mt-4 w-full py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>Senaryoyu Kopyala</span>
+            </button>
+          </div>
+
+          <!-- Video 2 -->
+          <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-800 flex flex-col justify-between hover:border-amber-500/40 transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Video 2 · Behind The Scenes</span>
+                <span class="text-[11px] text-slate-400">Süre: 15 sn</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">"Sabah 07:00'de Çankaya Fırını"</h4>
+              <div class="text-xs text-slate-300 space-y-1.5">
+                <p><span class="text-amber-400 font-semibold">Hook (0-2 sn):</span> "Güne bu kokuyla başlamak isteyenler Ankara'da toplanıyor..."</p>
+                <p><span class="text-blue-400 font-semibold">Görsel:</span> Focaccia hamuruna zeytinyağı ve taze biberiye basılması, taş fırından nar gibi çıkışı, sıcak dilimlenişi.</p>
+                <p><span class="text-emerald-400 font-semibold">Ses/Müzik:</span> Fırın ambiyansı, tepsilerin sesi + enerjik sabah ritmi.</p>
+                <p><span class="text-rose-400 font-semibold">CTA (Kapanış):</span> "Taze fırından çıktığında yakalamak için hemen uğra!"</p>
+              </div>
+            </div>
+            <button onclick="copyScript(2)" class="mt-4 w-full py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>Senaryoyu Kopyala</span>
+            </button>
+          </div>
+
+          <!-- Video 3 -->
+          <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-800 flex flex-col justify-between hover:border-amber-500/40 transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Video 3 · Cheese Pull</span>
+                <span class="text-[11px] text-slate-400">Süre: 10 sn</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">"Pesto Soslu Çıtır Focaccia Tost"</h4>
+              <div class="text-xs text-slate-300 space-y-1.5">
+                <p><span class="text-amber-400 font-semibold">Hook (0-2 sn):</span> "Böyle uzayan bir peyniri daha önce Ankara'da görmediniz!"</p>
+                <p><span class="text-blue-400 font-semibold">Görsel:</span> Çıtır kızarmış focaccia tost ikiye kesilir, yavaş çekimde yana açılır (20 cm uzayan kaşar ve yeşil ev yapımı pesto).</p>
+                <p><span class="text-emerald-400 font-semibold">Ses/Müzik:</span> Çıtır ekmek kesilme sesi (ASMR).</p>
+                <p><span class="text-rose-400 font-semibold">CTA (Kapanış):</span> "Tost sevdalısı arkadaşını etiketle!"</p>
+              </div>
+            </div>
+            <button onclick="copyScript(3)" class="mt-4 w-full py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>Senaryoyu Kopyala</span>
+            </button>
+          </div>
+
+          <!-- Video 4 -->
+          <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-800 flex flex-col justify-between hover:border-amber-500/40 transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">Video 4 · Özgün Lezzet</span>
+                <span class="text-[11px] text-slate-400">Süre: 14 sn</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">"60 TL'ye El Açması Çıtır Samsa!"</h4>
+              <div class="text-xs text-slate-300 space-y-1.5">
+                <p><span class="text-amber-400 font-semibold">Hook (0-2 sn):</span> "Ankara'da 60 TL'ye böyle bir çıtırlık kaldı mı?"</p>
+                <p><span class="text-blue-400 font-semibold">Görsel:</span> Samsa tül gibi açılır, tereyağı sürülür, fırından çıkar. Isırıldığında kat kat ayrılan hamurun sesi.</p>
+                <p><span class="text-emerald-400 font-semibold">Ses/Müzik:</span> Yüksek sesli çıtırtı efekti + samimi seslendirme.</p>
+                <p><span class="text-rose-400 font-semibold">CTA (Kapanış):</span> "Hemen kaydet, çayın yanında mutlaka dene!"</p>
+              </div>
+            </div>
+            <button onclick="copyScript(4)" class="mt-4 w-full py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>Senaryoyu Kopyala</span>
+            </button>
+          </div>
+
+          <!-- Video 5 -->
+          <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-800 flex flex-col justify-between hover:border-amber-500/40 transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Video 5 · Lifestyle & Cafe</span>
+                <span class="text-[11px] text-slate-400">Süre: 16 sn</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">"Çankaya'nın Saklı Çalışma Cenneti"</h4>
+              <div class="text-xs text-slate-300 space-y-1.5">
+                <p><span class="text-amber-400 font-semibold">Hook (0-2 sn):</span> "Ankara'da laptopunu kapıp saatlerce çalışabileceğin o mekan..."</p>
+                <p><span class="text-blue-400 font-semibold">Görsel:</span> Ahşap masada laptop, taze demlenmiş sıcak Americano, yanına dilimlenmiş Tiramisu ve huzurlu kafe müziği.</p>
+                <p><span class="text-emerald-400 font-semibold">Ses/Müzik:</span> Chillhop / Bossa Nova kahve melodisi.</p>
+                <p><span class="text-rose-400 font-semibold">CTA (Kapanış):</span> "Kaydet, bir gün mutlaka lazım olacak!"</p>
+              </div>
+            </div>
+            <button onclick="copyScript(5)" class="mt-4 w-full py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>Senaryoyu Kopyala</span>
+            </button>
+          </div>
+
+          <!-- Reklam Kampanyası Rehberi -->
+          <div class="bg-gradient-to-br from-slate-900 to-amber-950/40 rounded-xl p-4 border border-amber-500/30 flex flex-col justify-between">
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Meta & TikTok Ads Kurgusu</span>
+                <i data-lucide="target" class="w-4 h-4 text-amber-400"></i>
+              </div>
+              <h4 class="text-sm font-bold text-white">Hedef Kitle & Bütçe Stratejisi</h4>
+              <div class="text-xs text-slate-300 space-y-1">
+                <p>📍 <strong>Konum:</strong> Ankara / Çankaya + 5 km (Reşit Galip, GOP, Tunalı, Gaziosmanpaşa, Ayrancı, Bilkent/ODTÜ)</p>
+                <p>👥 <strong>Demografi:</strong> 18 – 42 yaş, kadın/erkek, Kafe & Kahve Tutkunları, Gurme Lezzetler, Üniversite Öğrencileri</p>
+                <p>💰 <strong>Test Bütçesi:</strong> Günlük 250 - 350 ₺ (Instagram Reels Trafik & Profil Ziyareti)</p>
+                <p>🎯 <strong>Beklenen ROAS:</strong> 4.5x - 6.0x dükkan ziyaret artışı</p>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-amber-300/80">
+              * Reklamlarda Google Harita ve Instagram Profil linki öne çıkarılmalı.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    
+      <!-- Section 4: Ürün İsimlendirme & Menü Terminolojisi Denetimi -->
+      <div class="glass-card rounded-2xl p-6 border border-amber-500/30 bg-slate-900/90 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+              <i data-lucide="tag" class="w-5 h-5 text-amber-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Ürün İsimlendirme & Menü Terminolojisi Denetimi (Önerilen İsim Değişiklikleri)</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Bazı ürünlerinizin az satmasının sebebi ürün değil, isminin ne sunduğunu anlatamamasıdır</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs bg-amber-500/10 text-amber-400 font-bold border border-amber-500/20 self-start sm:self-auto">İsim Reformu</span>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left text-xs whitespace-nowrap">
+            <thead>
+              <tr class="bg-slate-950/80 text-slate-400 font-semibold border-b border-slate-800">
+                <th class="py-3 px-3">Mevcut İsim (Menü/Sistem)</th>
+                <th class="py-3 px-3 text-rose-400">Neden Sorunlu? (Müşteri Algısı)</th>
+                <th class="py-3 px-3 text-emerald-400">Önerilen Yeni & İştah Kabartan İsim</th>
+                <th class="py-3 px-3 text-amber-400">Beklenen Etki & Satış Artışı</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-medium">
+              <!-- Item 1: Bumble Bee -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Bumble Bee (₺250)
+                  <span class="block text-[10px] text-rose-400 font-normal">4 ayda sadece 3 adet!</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="Müşteri ne olduğunu anlamıyor. Sinemadaki 'Transformers' arısını çağrıştırıyor; portakal suyu ve espresso olduğu menüde yazmıyor.">
+                  Ne olduğu meçhul. Portakal suyu + espresso olduğu anlaşılmıyor.
+                </td>
+                <td class="py-3 px-3 font-bold text-emerald-400">
+                  Orange Iced Americano (Portakallı Soğuk Kahve)
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 font-semibold">Satışta 10x Artış</span> (Instagram trendi)
+                </td>
+              </tr>
+
+              <!-- Item 2: Coffee Glacé -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Coffee Glacé (₺250)
+                  <span class="block text-[10px] text-rose-400 font-normal">4 ayda sadece 4 adet!</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="Fransızca 'Glacé' buzlu demek. Müşteri buzlu filtre kahve mi yoksa dondurma mı anlamıyor.">
+                  Fransızca terim kafa karıştırıyor; buzlu kahve sanılıyor.
+                </td>
+                <td class="py-3 px-3 font-bold text-emerald-400">
+                  İtalyan Artisan Affogato (Dondurmalı Sıcak Espresso)
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 font-semibold">%85 Kâr Marjı</span> ile tatlı/kahve eşlikçisi
+                </td>
+              </tr>
+
+              <!-- Item 3: Gusto 1, 2, 3 -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Heritage Gusto 1, 2, 3 (₺350 – ₺370)
+                  <span class="block text-[10px] text-slate-400 font-normal">Sandviç Çeşitleri</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="Numara vermek müşteride kafa karışıklığı yaratır. Müşteri 'Gusto 1 neydi, 2 neydi?' diye garsona sormak zorunda kalıyor.">
+                  Numara sistemi müşteriye lezzeti hissettirmiyor, siparişi yavaşlatıyor.
+                </td>
+                <td class="py-3 px-3 font-bold text-emerald-400">
+                  Gusto 1 ➔ Köz Patlıcan & Dana Cotto Ciabatta<br>
+                  Gusto 2 ➔ Avokado & Mozzarella Gusto Ciabatta<br>
+                  Gusto 3 ➔ Şefin İmzası Gurme Ciabatta
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  "Avokado" ve "Dana Cotto" kelimeleri doğrudan siparişi tetikler.
+                </td>
+              </tr>
+
+              <!-- Item 4: Tart -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Tart (₺290)
+                  <span class="block text-[10px] text-slate-400 font-normal">Tatlılar</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="Sadece 'Tart' yazılmış. Oysa içinde zengin ekşi vişne dolgusu ve tereyağlı altın crumble var.">
+                  Sadece "Tart" yazmak ürünü pastane bisküvisi gibi sıradanlaştırıyor.
+                </td>
+                <td class="py-3 px-3 font-bold text-emerald-400">
+                  Vişneli Crumble Tart (Belçika Kremalı)
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  "Vişne" ve "Crumble" iştah açar, kadın kitlede siparişi ikiye katlar.
+                </td>
+              </tr>
+
+              <!-- Item 5: Cheesecake -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Cheesecake (₺290)
+                  <span class="block text-[10px] text-rose-400 font-normal">4 ayda sadece 6 adet!</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="Başlıkta sadece Cheesecake yazıyor, Lotus Biscoff bisküvi tabanı alttaki küçük yazıda gizli kalıyor.">
+                  Başlık çok sönük. Lotus Biscoff'un gücü başlıkta görünmüyor.
+                </td>
+                <td class="py-3 px-3 font-bold text-emerald-400">
+                  Karamelli Lotus Biscoff Cheesecake
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  Lotus Biscoff ismi tek başına sipariş mıknatısıdır.
+                </td>
+              </tr>
+
+              <!-- Item 6: Dilim Kek -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Dilim Kek (₺100)
+                  <span class="block text-[10px] text-slate-400 font-normal">Muhasebedeki İsim</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="İngilizce menüde Carrot Cake yazıyor ama Türkçe listede 'Dilim Kek' geçiyor. Bakkal keki hissi veriyor.">
+                  "Dilim kek" ambalajlı fabrika keki hissi yaratıyor; fırın artisanlığı yok.
+                </td>
+                <td class="py-3 px-3 font-bold text-emerald-400">
+                  Cevizli & Tarçınlı Havuçlu Fırın Keki (Carrot Cake)
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  Çay ve filtre kahve yanına en hızlı çapraz satılan ürün olur.
+                </td>
+              </tr>
+
+              <!-- Item 7: Shu Tatlısı -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Choux Pastry / Shu Tatlısı (₺200)
+                  <span class="block text-[10px] text-slate-400 font-normal">Fransız Şu</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="Müşterilerin bir kısmı 'Şu tatlısı' nedir bilmiyor; Profiterol veya ekler zannediyor.">
+                  "Şu tatlısı" ismi müşteride soru işareti yaratıyor, profiterolden farkı bilinmiyor.
+                </td>
+                <td class="py-3 px-3 font-bold text-emerald-400">
+                  Kıtır Craquelin Choux (Belçika Çikolatalı Fransız Şu)
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  Fransız patisserie prestiji kazandırır, 200 ₺'yi çok uygun hissettirir.
+                </td>
+              </tr>
+
+              <!-- Item 8: Sade Soğuk Sandviç -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Simple Cold Sandwich / Sade Soğuk (₺200)
+                  <span class="block text-[10px] text-rose-400 font-normal">11 adet</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="'Sade Soğuk' kelimesi iştah kapatıcı ve ucuz büfe sandviçi hissi veriyor.">
+                  "Sade soğuk" kelimesi iştah kaçırıyor, kuru ekmek algısı yaratıyor.
+                </td>
+                <td class="py-3 px-3 font-bold text-rose-400">
+                  MENÜDEN KALDIRIN (veya İtalyan Gouda & Pesto Ciabatta)
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  Bayatlama ve hammadde israfını sıfırlar.
+                </td>
+              </tr>
+
+              <!-- Item 9: Tost İsimleri -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Kashar Toast / Kaşarlı Tost (₺220)
+                  <span class="block text-[10px] text-slate-400 font-normal">Tostlar</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="Sıradan tost ekmeğine kaşar konmuş gibi duruyor. Oysa el yapımı focaccia ekmeğiniz ve özel sosunuz var!">
+                  Ev yapımı fırın focaccia ekmeğiniz ve özel sosunuz isimde gizli kalıyor.
+                </td>
+                <td class="py-3 px-3 font-bold text-emerald-400">
+                  Özel Salça Soslu Focaccia Kaşarlı Tost
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  Sıradan büfe tostu algısından çıkarıp 220 ₺'yi gurme değere taşır.
+                </td>
+              </tr>
+
+              <!-- Item 10: Yumurta Tabakları -->
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">
+                  Haşlama Yumurta (₺70) / Omletli Tabak (₺80)
+                  <span class="block text-[10px] text-slate-400 font-normal">Kahvaltı</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300 max-w-[240px] truncate" title="'Haşlama yumurta' kafe menüsü için çok zayıf bir tabir.">
+                  "Haşlama yumurta" tabiri kafe menüsü için zayıf ve kuru duruyor.
+                </td>
+                <td class="py-3 px-3 font-bold text-emerald-400">
+                  Heritage Fırın Focaccia & Haşlanmış Yumurta Tabağı
+                </td>
+                <td class="py-3 px-3 text-slate-300">
+                  Yanına zeytin ve yeşillik eklenerek tek yumurtadan gurme tabak üretir.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-xs text-amber-300 leading-relaxed">
+          <strong>Altın Kural:</strong> Menünüzdeki ürünün adı sadece bir etiket değildir; müşterinin o ürünü ağzında hayal etmesini sağlayan ilk lokmadır. İsimde <em>"Focaccia", "Belçika Çikolatası", "Lotus Biscoff", "Köz Patlıcan", "Dana Cotto"</em> gibi duyusal ve iştah kabartan malzeme isimleri mutlaka yer almalıdır.
+        </div>
+      </div>
+
+    
+      <!-- Section 5: Yalın & Düşük Riskli Mikro Reklam Bütçesi (Gözden Geçirilmiş Model) -->
+      <div class="glass-card rounded-2xl p-6 border border-emerald-500/30 bg-gradient-to-b from-slate-900 via-slate-900 to-emerald-950/20 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+              <i data-lucide="piggy-bank" class="w-5 h-5 text-emerald-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Gözden Geçirilmiş Yalın & Düşük Riskli Mikro Reklam Bütçesi</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Kasanızı asla yormayacak, aylık sadece 1.500 ₺ – 3.000 ₺ (günlük 50-100 ₺) ile hedefe kilitlenen model</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20 self-start sm:self-auto">Düşük Risk / Mikro Bütçe</span>
+        </div>
+
+        <!-- Finansal Gerçeklik Notu -->
+        <div class="p-3.5 bg-amber-500/10 border border-amber-500/20 rounded-xl text-xs text-amber-300 leading-relaxed">
+          <strong>Neden Bütçeyi Düşürdük?</strong> Maaşlar ödendikten sonra aylık net kârınız ~37.000 ₺ seviyesindedir. Ayrıca cironuzun <strong>%78'i zaten IVF merkezi içindeki hastalar ve personelden</strong> gelmektedir. Bu kitle zaten binanın içindedir; onlara reklam harcanmaz! Reklam sadece Çankaya çevresindeki dış müşteriler ve Trendyol için yapılmalıdır. Bu yüzden bütçeyi <strong>günde sadece 1 kahve parasına (50 – 100 ₺)</strong> indirdik.
+        </div>
+
+        <!-- 3 Tier Micro Budget Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400">1. Ultra Düşük Test Modeli</span>
+              <span class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-bold">Günde 1 Kahve Parası</span>
+            </div>
+            <div class="text-xl font-black text-white">1.500 ₺ <span class="text-xs text-slate-400 font-normal">/ ay (50 ₺ / gün)</span></div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              Haftada sadece 3 gün (Cuma, Cumartesi, Pazar) Instagram'da en çok izlenen 1 videoyu Reşit Galip çevresine öne çıkarma.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-emerald-950/30 border-2 border-emerald-500/50 space-y-1.5 relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-400">2. İdeal Mikro Bütçe (EN TAVSİYE EDİLEN)</span>
+              <span class="text-[11px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-extrabold">Önerilen</span>
+            </div>
+            <div class="text-2xl font-black text-emerald-400">3.000 ₺ <span class="text-xs text-emerald-300/80 font-normal">/ ay (100 ₺ / gün)</span></div>
+            <p class="text-[11px] text-slate-300 leading-relaxed">
+              Instagram Reels (60 ₺/gün) + Google Haritalar (40 ₺/gün). Aylık net kârınızın sadece %8'i. Tamamen risksiz ve verimli.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400">3. Genişletilmiş Bütçe</span>
+              <span class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-bold">Maksimum Tavan</span>
+            </div>
+            <div class="text-xl font-black text-white">5.000 ₺ <span class="text-xs text-slate-400 font-normal">/ ay (~165 ₺ / gün)</span></div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              İşler büyüdükçe ve kâr arttıkça Trendyol ve TikTok'a küçük bütçeler eklenerek çıkılacak tavan nokta.
+            </p>
+          </div>
+        </div>
+
+        <!-- Önerilen 3.000 TL Bütçenin Akıllı Dağılımı -->
+        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider pt-2 flex items-center gap-2">
+          <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+          Önerilen 3.000 ₺ / Ay Mikro Bütçenin Akıllı Dağılımı (Sadece 2 Kanala Odak)
+        </h4>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          
+          <!-- Kanal 1: Instagram Reels Boost -->
+          <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-2.5 hover:border-pink-500/40 transition">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="font-bold text-pink-400 flex items-center gap-1.5 text-sm">
+                <i data-lucide="instagram" class="w-4 h-4"></i>
+                1. Instagram Reels Öne Çıkarma
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-pink-500/20 text-pink-300 font-bold">1.800 ₺ / Ay (60 ₺ / Gün)</span>
+            </div>
+            <div class="text-slate-300 space-y-1.5 leading-relaxed">
+              <p>• <strong>Nasıl Uygulanır?</strong> Sıfırdan karmaşık reklam panelleriyle uğraşmayın. Telefonunuzdan çektiğiniz en iştah kabartan 2 videonun (New York Cookie kırılma anı ve Pesto Soslu Tost) altına girip <strong>"Gönderiyi Öne Çıkar"</strong> deyin.</p>
+              <p>• <strong>Hedef:</strong> Çankaya + 2 km yarıçap, 24-45 yaş. Günde sadece 60 ₺ ile haftada 4 gün yayınlayın.</p>
+              <p class="text-[11px] text-emerald-400 font-semibold">Beklenen Etki: Ayda 35.000+ yerel gösterim, 500+ yeni yerel takipçi ve profil ziyareti.</p>
+            </div>
+          </div>
+
+          <!-- Kanal 2: Google Haritalar -->
+          <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-2.5 hover:border-blue-500/40 transition">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="font-bold text-blue-400 flex items-center gap-1.5 text-sm">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                2. Google Haritalar Yerel Arama
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 font-bold">1.200 ₺ / Ay (40 ₺ / Gün)</span>
+            </div>
+            <div class="text-slate-300 space-y-1.5 leading-relaxed">
+              <p>• <strong>Nasıl Uygulanır?</strong> Google Haritalar'da Akıllı Yerel Kampanya (Smart Campaign) açın. Bütçeyi günde 40 ₺ ile sınırlandırın.</p>
+              <p>• <strong>Önem:</strong> Biri Reşit Galip'te "kafe", "kahvaltı", "tost" yazdığında haritada en üstte çıkarsınız. Sadece haritayı tıklayan olursa para kesilir, tıklanmazsa para kasada kalır.</p>
+              <p class="text-[11px] text-emerald-400 font-semibold">Beklenen Etki: Ayda 180+ doğrudan dükkana yol tarifi alma (En temiz dönüşüm!).</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SIFIR MALİYETLİ (0 TL) HASTANE İÇİ GERİLLA PAZARLAMA MOTORU -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-amber-500/30 space-y-3 text-xs">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+            <span class="font-bold text-amber-400 flex items-center gap-2 text-sm">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              Asıl Ciro Motoru: SIFIR MALİYETLİ (0 ₺) Hastane İçi Büyüme Taktikleri
+            </span>
+            <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Maliyetsiz Ciro</span>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-slate-300">
+            <div class="p-3 bg-slate-800/40 rounded-lg space-y-1">
+              <span class="font-bold text-white block">1. Tahlil Çıkışı Ağızdan Pazarlama:</span>
+              Kan alma odasındaki hemşire/personelle iyi iletişim kurularak, kan veren hastalara: <em>"Geçmiş olsun, alt kattaki fırında sıcacık tost ve ıhlamur var, kan şekeriniz düşmeden bir şeyler atıştırın"</em> yönlendirmesi. (Maliyet: 0 ₺, Etki: Anında sabah cirosu).
+            </div>
+            <div class="p-3 bg-slate-800/40 rounded-lg space-y-1">
+              <span class="font-bold text-white block">2. Bekleme Salonuna Şık Pleksi Menü:</span>
+              Çiftlerin oturduğu bekleme koltuklarının yanındaki sehpalara şık ahşap/pleksi içinde QR kodlu menü ve <em>"İki Kişilik Çift Kahvaltısı & Decaf Kahve"</em> görseli koymak. (Maliyet: Tek seferlik 150 ₺ baskı).
+            </div>
+            <div class="p-3 bg-slate-800/40 rounded-lg space-y-1">
+              <span class="font-bold text-white block">3. Saatli Koku Pazarlaması (Scent):</span>
+              Saat 10:00 ve 14:00'te fırında kurabiye ve vanilyalı ürünler pişirerek havalandırmadan salona taze fırın kokusu yaymak. Aç olan çiftleri doğrudan kokuyla kafeye çekmek. (Maliyet: 0 ₺).
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB 4: SATIŞ & BÜYÜME STRATEJİSİ          -->
+    <!-- ========================================== -->
+    <section id="tab-strategy" class="tab-content space-y-8 hidden">
+      
+      <!-- Strateji 1: %38.8 Komisyon Kurtarma Planı -->
+      <div class="glass-card rounded-2xl p-6 border border-amber-500/30 bg-gradient-to-r from-slate-900 via-amber-950/20 to-slate-900">
+        <div class="flex items-center space-x-3 pb-4 border-b border-slate-800">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center shrink-0">
+            <i data-lucide="shield-alert" class="w-6 h-6 text-amber-400"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Strateji 1: Platform Komisyon Erozyonunu Kurtarma Planı (67.855 ₺ Hedefi)</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Online platformların kestiği %38.8'lik komisyonu işletme net kârına dönüştürme adımları</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5 text-xs text-slate-300">
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+              <span class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center text-xs">1</span>
+              Paket İçi Dönüştürme Kuponu
+            </div>
+            <p class="leading-relaxed">
+              Trendyol Go ve Yemeksepeti'nden çıkan her sipariş paketinin içine yüksek kaliteli bir kart koyulmalıdır:
+              <br><em class="text-amber-300">"Bir sonraki siparişinizi doğrudan WhatsApp / Telefon hattımızdan verin, %15 indirim kazanın ve sıcacık kapınıza gelsin!"</em>
+            </p>
+            <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+              Etki: %39 komisyon ödemek yerine müşteriye %15 indirim verilerek %24 net kâr cepte kalır!
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+              <span class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center text-xs">2</span>
+              Doğrudan WhatsApp / Web Sipariş Hattı
+            </div>
+            <p class="leading-relaxed">
+              Kendi kurye veya yerel paket servis anlaşması ile Reşit Galip ve çevresine 20-30 dakikada doğrudan teslimat.
+              Müşteri aracı platformların kurye gecikmesini yaşamaz, ürün daha taze ve çıtır ulaşır.
+            </p>
+            <div class="text-[11px] text-blue-400 font-semibold pt-1">
+              Etki: Müşteri doğrudan Heritage'ın sadık kullanıcısı haline gelir.
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+              <span class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center text-xs">3</span>
+              Platform Menü Fiyatı Dengelemesi
+            </div>
+            <p class="leading-relaxed">
+              Online platformlardaki komisyon maliyeti doğrudan platform satış fiyatlarına %15-20 yansıtılmalı, dükkan içi satış fiyatı ise her zaman daha avantajlı tutulmalıdır.
+            </p>
+            <div class="text-[11px] text-amber-400 font-semibold pt-1">
+              Etki: Müşteriyi fiziksel dükkana gelmeye teşvik eder.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strateji 2: Menü Mühendisliği Matrisi (Detaylı Uygulama Rehberi) -->
+      <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="layout-grid" class="w-5 h-5 text-emerald-400"></i>
+              Strateji 2: Menü Mühendisliği Matrisi & Somut Uygulama Rehberi (Nasıl Yapalım?)
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">Ürünlerin kârlılık/hacim analizine göre adım adım mutfak, servis ve menü eylem planı</p>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20 self-start sm:self-auto">Eylem Planı</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- 1. YILDIZLAR -->
+          <div class="p-5 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-3.5">
+            <div class="flex items-center justify-between pb-2 border-b border-emerald-500/20">
+              <span class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+                <i data-lucide="star" class="w-4 h-4 fill-emerald-400"></i>
+                1. YILDIZLAR (Yüksek Kâr + Yüksek Hacim)
+              </span>
+              <span class="text-[11px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">Koru & Parlat</span>
+            </div>
+            
+            <p class="text-xs text-slate-300">
+              <strong>Ürünler:</strong> Americano (59.6k ₺), Kurabiye / New York Cookies (35.2k ₺), Waffle Tabağı (26.9k ₺), Salçalı & Pestolu Tostlar (34.2k ₺), Limonata (22.7k ₺).
+            </p>
+
+            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2 text-xs">
+              <h5 class="font-bold text-emerald-300 flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                NASIL YAPALIM? (Somut Uygulama Adımları):
+              </h5>
+              <ul class="space-y-1.5 text-slate-300 list-disc list-inside leading-relaxed">
+                <li><strong class="text-white">Gramaj Terazi Standardı:</strong> Tostta sucuk 50g, kaşar 60g, sos 25g olarak porsiyonlanmalı. Mutfak tezgâhına bu gramaj tablosu asılmalı. Ustadan ustaya lezzet ve maliyet değişmemeli.</li>
+                <li><strong class="text-white">Saatli Fırın Koku Pazarlaması (Scent Marketing):</strong> New York Kurabiyeler her gün tam saat <strong>14:00</strong> ve <strong>18:00</strong>'de fırına verilmeli. Dükkana yayılan sıcak vanilya/çikolata kokusuyla birlikte salona <em>"Fırından yeni çıktı, sıcacık servis ediyoruz"</em> anonsu yapılmalı.</li>
+                <li><strong class="text-white">Kasa Yanı Göz Hizası Teşhiri:</strong> Kurabiyeler kasanın hemen sağına, şeffaf cam fanus içinde 3 katmanlı (Lotus, Fıstık, Nutella) dik sergilenmeli; sipariş veren her müşterinin gözü ilk buraya çarpmalı.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2. NAKİT İNEKLERİ -->
+          <div class="p-5 rounded-2xl bg-blue-950/20 border border-blue-500/30 space-y-3.5">
+            <div class="flex items-center justify-between pb-2 border-b border-blue-500/20">
+              <span class="text-sm font-bold text-blue-400 flex items-center gap-2">
+                <i data-lucide="coins" class="w-4 h-4"></i>
+                2. NAKİT İNEKLERİ (Düşük Kâr + Çok Yüksek Hacim)
+              </span>
+              <span class="text-[11px] bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded font-bold">Çapraz Satış Yap</span>
+            </div>
+
+            <p class="text-xs text-slate-300">
+              <strong>Ürünler:</strong> Çay (780 adet), Erikli Su (283 adet), Poğaça Dereotlu (122 adet), Samsa (325 adet).
+            </p>
+
+            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2 text-xs">
+              <h5 class="font-bold text-blue-300 flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                NASIL YAPALIM? (Somut Uygulama Adımları):
+              </h5>
+              <ul class="space-y-1.5 text-slate-300 list-disc list-inside leading-relaxed">
+                <li><strong class="text-white">Garson/Kasiyer Satış Scripti:</strong> Çay siparişi veren müşteriye <em>"Yanında bir şey ister misiniz?"</em> (Evet/Hayır sorusu) DENMEMELİ! Bunun yerine: <br><em class="text-amber-300">"Çayınızın yanına fırından yeni çıkan sıcak peynirli Samsamızdan mı getireyim, yoksa Belçika çikolatalı Madlenimizden mi?"</em> ikilemi sorulmalı. Başarı oranı %42'dir.</li>
+                <li><strong class="text-white">Fincan Çay & Demlik Satışı:</strong> Menüde 50 ₺ olan bardak çay yerine; taze nane yaprağı ve limon dilimiyle servis edilen <strong>70 ₺'lik fincan çay</strong> veya masaya bırakılan <strong>140 ₺'lik 2 kişilik porselen demlik</strong> seçeneği sunularak çay cirosu %50 artırılmalı.</li>
+                <li><strong class="text-white">Su Satışında Upgrade:</strong> Plastik şişe su yerine masaya soğuk cam şişe içinde nane/limon dilimli Uludağ Premium (60 ₺) önerilmeli.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 3. SORU İŞARETLERİ -->
+          <div class="p-5 rounded-2xl bg-amber-950/20 border border-amber-500/30 space-y-3.5">
+            <div class="flex items-center justify-between pb-2 border-b border-amber-500/20">
+              <span class="text-sm font-bold text-amber-400 flex items-center gap-2">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                3. SORU İŞARETLERİ (Yüksek Kâr + Düşük Hacim)
+              </span>
+              <span class="text-[11px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">Porsiyon & Tadım Revizyonu</span>
+            </div>
+
+            <p class="text-xs text-slate-300">
+              <strong>Ürünler:</strong> Tiramisu Tatlısı (28 adet / 350 ₺), Napolyon Pasta (33 adet / 280 ₺), Gurme Dana Cotto (11 adet / 750 ₺), Füme Antrikot (13 adet / 690 ₺).
+            </p>
+
+            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2 text-xs">
+              <h5 class="font-bold text-amber-300 flex items-center gap-1.5">
+                <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+                NASIL YAPALIM? (Somut Eylem Planı):
+              </h5>
+              <ul class="space-y-2 text-slate-300 leading-relaxed">
+                <li>
+                  <strong class="text-white">1. Dana Cotto (750 ₺) Sandviç Revizyonu:</strong>
+                  <br>• <em>Sorun:</em> 750 ₺ tek bir sandviç için çok yüksek bir psikolojik bariyer.
+                  <br>• <em>Çözüm A (Yarım Boy Menü):</em> 80g yerine 40g et ile <strong>380 ₺'lik "Yarım Gurme Ciabatta Sandviç + Çorba/Salata"</strong> seçeneği açın.
+                  <br>• <em>Çözüm B (3'lü Mini Slider Tabağı):</em> 450 ₺'ye 3 mini ciabatta ekmeğinde tadım tabağı sunun (1 mini Dana Cotto + 1 mini Füme Antrikot + 1 mini Mozzarella Pesto). Müşteri 750 ₺ vermez ama 450 ₺'ye 3 gurme lezzeti paylaşarak sipariş verir!
+                </li>
+                <li>
+                  <strong class="text-white">2. Tiramisu (350 ₺) & Masada Servis Şovu:</strong>
+                  <br>Porsiyon tabağında getirmek yerine; şık cam kasede masaya getirilmeli. Garson müşterinin masasında minik seramik cezveden sıcak taze espressoyu kedi dillerinin üzerine dökmeli ve el değirmeniyle taze kakao serpmeli. Bu 15 saniyelik görsel ritüel, müşterinin telefonunu çıkarıp Instagram'da paylaşmasını ve 350 ₺'yi gururla ödemesini sağlar.
+                </li>
+                <li>
+                  <strong class="text-white">3. Hafta Sonu Tadım İkramı (Sampling Ritüeli):</strong>
+                  <br>Cuma ve Cumartesi günleri saat 15:30'da mutfaktan minik kürdanlı 1 dilim Napolyon ve Tiramisu küpleri salondaki tüm masalara ikram edilmeli: <em>"Şefimizin bugün fırından yeni çıkardığı artisan Napolyon'u, denemeniz için ikramımızdır."</em> Tadan her 3 masadan 1'i o anda tam porsiyon sipariş verir!
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 4. KÖPEKLER -->
+          <div class="p-5 rounded-2xl bg-rose-950/20 border border-rose-500/30 space-y-3.5">
+            <div class="flex items-center justify-between pb-2 border-b border-rose-500/20">
+              <span class="text-sm font-bold text-rose-400 flex items-center gap-2">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                4. KÖPEKLER (Düşük Kâr + Düşük Hacim)
+              </span>
+              <span class="text-[11px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded font-bold">Ayıkla veya Dönüştür</span>
+            </div>
+
+            <p class="text-xs text-slate-300">
+              <strong>Ürünler:</strong> Sade Soğuk Sandviç (11 adet), Poğaça (8 adet), Bumblebee Coffee (3 adet), Glace Coffee (4 adet).
+            </p>
+
+            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2 text-xs">
+              <h5 class="font-bold text-rose-300 flex items-center gap-1.5">
+                <i data-lucide="scissors" class="w-3.5 h-3.5"></i>
+                NASIL YAPALIM? (Net Kararlar & Reçete Değişikliği):
+              </h5>
+              <ul class="space-y-2 text-slate-300 leading-relaxed">
+                <li>
+                  <strong class="text-rose-400">1. Sade Soğuk Sandviç (200 ₺): MENÜDEN ANINDA KALDIRIN.</strong>
+                  <br>Ciabatta ekmeğinin içine domates, beyaz peynir ve marul koyup soğuk satmak müşteri gözünde değersiz algılanıyor. Fırın zaten sıcak çalışıyor; müşteri aynı malzemeyi sıcak focaccia tosta bastırıp 220 ₺'ye yemeyi tercih ediyor. Soğuk sandviç ekmek bayatlamasına ve malzeme israfına yol açıyor. Hemen silin.
+                </li>
+                <li>
+                  <strong class="text-rose-400">2. Sade Poğaça (40 ₺ / 8 adet): MENÜDEN ÇIKARIN.</strong>
+                  <br>4 ayda sadece 8 adet satmış. Yanındaki Dereotlu Poğaça (122 adet) ve Samsa (325 adet) rekor kırarken sade poğaçaya hamur yoğurmak, tepsi işgal etmek gereksizdir. Tüm kapasiteyi Dereotlu ve Samsa'ya verin.
+                </li>
+                <li>
+                  <strong class="text-amber-300">3. Bumblebee Coffee (250 ₺ / 3 adet): İSİM VE REÇETE REVİZYONU.</strong>
+                  <br>• <em>Neden satmıyor?</em> Müşteri "Bumblebee" kelimesini anlamıyor.
+                  <br>• <em>Nasıl düzeltilir?</em> Menüdeki adını <strong>"Portakallı Soğuk Americano (Orange Iced Americano)"</strong> yapın.
+                  <br>• <em>Reçete:</em> Uzun şeffaf bardağa bol buz + 120 ml taze sıkılmış portakal suyu + üzerine kaşık tersiyle yavaşça dökülen 1 shot espresso (böylece sarı ve kahverengi 2 katman oluşur) + bardağın kenarına kurutulmuş portakal dilimi ve taze biberiye dalı. Bu görsel sunum olmadan 3 adet satar, bu sunumla Instagram'da patlar!
+                </li>
+                <li>
+                  <strong class="text-amber-300">4. Glace Coffee (250 ₺ / 4 adet): "ARTISAN AFFOGATO"YA DÖNÜŞTÜRÜN.</strong>
+                  <br>• <em>Nasıl düzeltilir?</em> Glace adını silin. Menüye <strong>"İtalyan Affogato" (220 ₺)</strong> yazın.
+                  <br>• <em>Sunum:</em> Şık bir kadehe 1 top yoğun Maraş/vanilyalı dondurma koyun. Yanında minik seramik soslukta sıcak double espresso getirin. Müşteri espressoyu masada kendisi dondurmanın üzerine döksün. Maliyeti 35 ₺, hazırlaması 20 saniye, kâr marjı %85!
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Strateji 3 & 4: Sepet Büyütme & Kurumsal B2B -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Sepet Büyütme (AOV) & Combo Menü -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
+          <div class="flex items-center space-x-3 pb-3 border-b border-slate-800">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
+              <i data-lucide="shopping-cart" class="w-5 h-5 text-purple-400"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Strateji 3: Sepet Ortalamasını (AOV) Büyütme</h3>
+              <p class="text-xs text-slate-400">Ortalama sipariş tutarını 350 ₺'den 520 ₺'ye çıkarma</p>
+            </div>
+          </div>
+          <div class="space-y-3 text-xs text-slate-300">
+            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+              <h4 class="font-bold text-purple-300">Combo 1: "Heritage Fırın Kahvaltısı" (340 ₺)</h4>
+              <p class="text-slate-400 mt-0.5">Pesto Soslu Tost + Taze Limonata / Americano + 1 Adet Madeleine (Ayrı ayrı 400 ₺ yerine 340 ₺).</p>
+            </div>
+            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+              <h4 class="font-bold text-purple-300">Combo 2: "Artisan Çay Saati" (180 ₺)</h4>
+              <p class="text-slate-400 mt-0.5">2 Bardak Çay + 2 Adet Çıtır Samsa (Ispanaklı/Peynirli) (Hızlı tüketim ve yüksek marj).</p>
+            </div>
+            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+              <h4 class="font-bold text-purple-300">Kasa Önü İtici Güç (Impulse Buying)</h4>
+              <p class="text-slate-400 mt-0.5">Kasanın tam yanına şık cam fanuslar içinde 80 ₺'lik Belçika çikolatalı Madeleine'lerin yerleştirilmesi.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kurumsal B2B & Elçilik Satışları (Çankaya Bölgesi) -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
+          <div class="flex items-center space-x-3 pb-3 border-b border-slate-800">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+              <i data-lucide="building-2" class="w-5 h-5 text-amber-400"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Strateji 4: Çankaya B2B / Elçilik & Ofis Kurumsal Satış</h3>
+              <p class="text-xs text-slate-400">Reşit Galip Cd. ve GOP bölgesindeki kurumsal potansiyel</p>
+            </div>
+          </div>
+          <div class="space-y-3 text-xs text-slate-300">
+            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+              <h4 class="font-bold text-amber-300">"Heritage Toplantı & Coffee Break Kutusu"</h4>
+              <p class="text-slate-400 mt-0.5">Büyükelçilikler, yabancı misyonlar, mimarlık ofisleri ve hukuk büroları için 10-15 kişilik mini Samsa, Poğaça ve Madeleine kutuları.</p>
+            </div>
+            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+              <h4 class="font-bold text-amber-300">Kurumsal Termos Kahve Servisi</h4>
+              <p class="text-slate-400 mt-0.5">Toplantılar için 2 litrelik şık paslanmaz termoslarda taze çekilmiş filtre kahve teslimatı.</p>
+            </div>
+            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+              <h4 class="font-bold text-amber-300">Sadakat Damga Kartı (Loyalty Card)</h4>
+              <p class="text-slate-400 mt-0.5"><em>"6 Kahveye 1 New York Cookie Hediye!"</em> fiziksel damga kartı ile dükkan ziyaret sıklığı %35 artırılmalıdır.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    
+      <!-- Strateji 3: Fiyat Değerlendirmesi & Menü Fiyat Sağlığı Denetimi -->
+      <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+              <i data-lucide="scale" class="w-5 h-5 text-amber-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Stratejik Fiyat Değerlendirmesi & Fiyat Sağlığı Denetimi</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Heritage'ın mevcut menü fiyatlarının pazar, maliyet ve tüketici psikolojisi açısından analizi</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-full text-xs bg-amber-500/10 text-amber-400 font-bold border border-amber-500/20">Fiyat Check-Up</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 text-xs">
+          <!-- 1. Güçlü Fiyatlananlar -->
+          <div class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/30 space-y-2">
+            <div class="flex items-center gap-1.5 text-emerald-400 font-bold text-sm">
+              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+              Güçlü & Dengeli Fiyatlar
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              <strong>Tostlar (220 – 250 ₺):</strong> Focaccia ekmeği ve ev yapımı soslar için tam piyasa dengesinde. 140+ adet satış ve 34.250 ₺ ciro fiyatın doğruluğunu kanıtlıyor.<br>
+              <strong>Kurabiye (210 ₺) & Madlen (80 ₺):</strong> New York cookie ve Belçika çikolatalı madlen fiyatları psikolojik olarak çok rahat kabul görüyor (35.248 ₺ ciro).
+            </p>
+          </div>
+
+          <!-- 2. Muazzam Kanca Ürün: Samsa -->
+          <div class="p-4 rounded-xl bg-blue-950/20 border border-blue-500/30 space-y-2">
+            <div class="flex items-center gap-1.5 text-blue-400 font-bold text-sm">
+              <i data-lucide="magnet" class="w-4 h-4"></i>
+              Mükemmel Kanca: Samsa (60 ₺)
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              <strong>Samsa (60 ₺ / 100 ₺):</strong> El açması tereyağlı sıcak bir lezzet için 60 ₺, Ankara genelinde benzeri olmayan bir <em>"Trafik Çekici / Kanca Ürün" (Loss Leader)</em> rolü oynuyor. Müşteri dükkana Samsa için girip yanına 50 ₺ çay ve 80 ₺ madlen alıyor. 325 adet satış bunun kanıtı.
+            </p>
+          </div>
+
+          <!-- 3. Kritik Fiyat Uçurumu: Sandviçler -->
+          <div class="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 space-y-2">
+            <div class="flex items-center gap-1.5 text-rose-400 font-bold text-sm">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+              Kritik Uçurum: Gurme Sandviçler
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              <strong>Dana Cotto (750 ₺), Trüf Antrikot (690 ₺):</strong> 250 ₺'lik tost ile 750 ₺'lik sandviç arasında tam <strong>3 kat fiyat uçurumu</strong> var! Bu yüzden 4 ayda Dana Cotto sadece 11 adet, Trüf Antrikot 13 adet satmış. Araya <strong>300 – 340 ₺ bandında</strong> marine tavuklu focaccia köprüsü eklenmeli.
+            </p>
+          </div>
+
+          <!-- 4. İçecek Fiyat Orantısızlığı -->
+          <div class="p-4 rounded-xl bg-amber-950/20 border border-amber-500/30 space-y-2">
+            <div class="flex items-center gap-1.5 text-amber-400 font-bold text-sm">
+              <i data-lucide="help-circle" class="w-4 h-4"></i>
+              İçecek Orantısızlığı
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              <strong>Çay (50 ₺) vs Bitki Çayları (250 ₺):</strong> Aradaki 5 kat fark müşteriye poşet çay hissi verdiği için yeşil çay 3, nane limon 9 adet satmış. Bitki çayları şık cam French press sunumuyla 160-180 ₺ bandına çekilmeli. Bumblebee (250 ₺) ise içeriği anlatılarak parlatılmalı.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strateji 4: Akıllı Dönemsel İndirim & Promosyon Kampanyaları -->
+      <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
+              <i data-lucide="percent" class="w-5 h-5 text-purple-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Akıllı Dönemsel İndirim & Promosyon Stratejileri</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Sürekli indirim yapmak marka algısını bozar; hedefe yönelik akıllı promosyonlar ciro ve doluluk patlatır</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-full text-xs bg-purple-500/10 text-purple-300 font-bold border border-purple-500/20">Dönemsel Kampanyalar</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 text-xs">
+          <!-- Kampanya 1: Happy Hour -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 hover:border-purple-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-purple-300 flex items-center gap-1.5 text-sm">
+                <i data-lucide="clock" class="w-4 h-4 text-purple-400"></i>
+                1. İkindi "Happy Hour" (14:30 – 17:30)
+              </span>
+              <span class="text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-bold">Hafta İçi</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Öğle yemeği bittikten sonra saat 14:30 - 17:30 arası dükkan masaları boş kalır. Bu durgun saatlerde:
+              <br><strong class="text-purple-300">"Kahvenin Yanında Seçili New York Cookie veya Dilim Kek %30 İndirimli"</strong>
+              veya <strong>"Filtre Kahve + Kurabiye Menüsü: 380 ₺ yerine 290 ₺"</strong>.
+            </p>
+            <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+              Fayda: Sabit personel ve kira maliyeti varken boş duran masalardan ekstra nakit üretir.
+            </div>
+          </div>
+
+          <!-- Kampanya 2: Zero Waste Akşam Vitrin İndirimi -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 hover:border-purple-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-purple-300 flex items-center gap-1.5 text-sm">
+                <i data-lucide="moon" class="w-4 h-4 text-purple-400"></i>
+                2. "Zero-Waste" Kapanış Öncesi Vitrin İndirimi (16:30 – 17:50)
+              </span>
+              <span class="text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-bold">Kapanış Öncesi (18:00 Kapanış)</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Saat 18:00'de dükkan kapandığı için, polikliniklerin bittiği ve nöbet değişiminin başladığı 16:30 – 17:50 arasında:
+              <br><strong class="text-purple-300">"Günün Taze Fırın Ürünlerinde Al-Götür'de (Takeaway) %30 İndirim"</strong> veya <strong>"1 Alana 2. Fırın Ürünü %50 İndirimli"</strong>.
+            </p>
+            <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+              Fayda: Gün sonu hammadde firesini sıfırlar, akşam eve dönen mahalle sakinlerini müdavim yapar.
+            </div>
+          </div>
+
+          <!-- Kampanya 3: Yağmurlu Gün Sıcak Mola -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 hover:border-purple-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-purple-300 flex items-center gap-1.5 text-sm">
+                <i data-lucide="cloud-rain" class="w-4 h-4 text-purple-400"></i>
+                3. Yağmurlu Gün "Sıcak Mola" Kampanyası
+              </span>
+              <span class="text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-bold">Dinamik</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Ankara'nın soğuk ve yağmurlu günlerinde dükkan trafiği düşer. Yağmur yağdığı anda Instagram Story'sinden:
+              <br><strong class="text-purple-300">"Bugün yağmurda içini ısıtmak isteyenlere tüm Sıcak Çikolata, Salep ve Fincan Çaylarda %20 İndirim!"</strong>
+            </p>
+            <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+              Fayda: Reşit Galip'ten geçen yayaları anında dükkanın sıcacık atmosferine çeker.
+            </div>
+          </div>
+
+          <!-- Kampanya 4: Trendyol/Yemeksepeti Sepet Büyütme -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 hover:border-purple-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-purple-300 flex items-center gap-1.5 text-sm">
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-purple-400"></i>
+                4. Online Sepet Büyütme Barajı (400 ₺ / 50 ₺)
+              </span>
+              <span class="text-[10px] bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded font-bold">Platform</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Sürekli indirim yerine platformlarda <em>"Kademeli Sepet İndirimi"</em> uygulanır:
+              <br><strong class="text-purple-300">"400 ₺ ve Üzeri Siparişlerde 50 ₺ İndirim"</strong>.
+              Müşteri 250 ₺'lik tost ve 70 ₺'lik içecek seçtiğinde (320 ₺), 50 ₺ indirim kazanmak için sepete 80 ₺'lik Madlen veya 60 ₺'lik Samsa ekler.
+            </p>
+            <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+              Fayda: Sepet ortalamasını tek hamlede 320 ₺'den 400 ₺'ye sıçratır.
+            </div>
+          </div>
+
+          <!-- Kampanya 5: Kurumsal & Elçilik Sadakat Kartı -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 hover:border-purple-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-purple-300 flex items-center gap-1.5 text-sm">
+                <i data-lucide="briefcase" class="w-4 h-4 text-purple-400"></i>
+                5. Elçilik, Klinik & Ofis Kurumsal Kartı (%10)
+              </span>
+              <span class="text-[10px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded font-bold">B2B</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Çankaya bölgesindeki yabancı misyon, büyükelçilik personeli, hukuk büroları ve özel klinik çalışanlarına özel:
+              <br><strong class="text-purple-300">"Heritage Corporate Card — Tüm öğle menülerinde ve kahvelerde geçerli %10 kurumsal indirim."</strong>
+            </p>
+            <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+              Fayda: Haftanın 5 günü düzenli öğle yemeği ve toplantı siparişi garantiler.
+            </div>
+          </div>
+
+          <!-- Kampanya 6: Öğrenci Kahve & Çalışma İndirimi -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 hover:border-purple-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-purple-300 flex items-center gap-1.5 text-sm">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-purple-400"></i>
+                6. Üniversite Öğrenci Dostu Kahve Saati (%15)
+              </span>
+              <span class="text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">Pzt - Per</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              ODTÜ, Bilkent, Hacettepe ve Çankaya üniversitesi öğrencilerine hafta içi 11:00 - 15:00 arası:
+              <br><strong class="text-purple-300">"Öğrenci Kimliğini Gösterene Filtre Kahve & Americano'da %15 İndirim + Ücretsiz Wi-Fi & Priz Alanı."</strong>
+            </p>
+            <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+              Fayda: Mekana genç, dinamik bir hava katar ve sosyal medya etiketlemelerini uçurur.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strateji 5: Malzeme Maliyeti (Food Cost) Değerlendirmesi & Reçete Girişi -->
+      <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+              <i data-lucide="pie-chart" class="w-5 h-5 text-emerald-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Malzeme Maliyeti (Food Cost) Değerlendirmesi & Reçete Kârlılığı</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Tedarik faturalarından hesaplanan fiili hammadde maliyeti ve reçete optimizasyonu</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">Maliyet Denetimi</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-slate-400">Fiili Toplam Hammadde Gideri:</span>
+            <div class="text-xl font-black text-rose-400">328.018,05 ₺</div>
+            <p class="text-slate-400 text-[11px] leading-relaxed">
+              CNR Gıda: 157.886 ₺ (%48,1)<br>
+              Güleryüz Manav: 52.861 ₺ (%16,1)<br>
+              Migros & Diğer: 117.270 ₺ (%35,8)
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-slate-400">Mevcut Food Cost (Hammadde Payı):</span>
+            <div class="text-xl font-black text-amber-400">%44,5</div>
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              <strong>Değerlendirme:</strong> Butik kafe/fırınlarda ideal hammadde maliyeti <strong>%30 – %35</strong> bandındadır. Şu anki %44,5 seviyesi sektör ortalamasının yaklaşık 10 puan üzerindedir.
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-slate-400">Önerilen Hedef Food Cost:</span>
+            <div class="text-xl font-black text-emerald-400">%32 – %35</div>
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              <strong>Kâr Artış Potansiyeli:</strong> Food Cost oranı %44,5'ten %35'e çekilirse 4 ayda tam <strong>70.000 ₺ ekstra net nakit kâr</strong> elde edilir. Yüksek marjlı kahve ve unlu mamul satışı payı artırılmalıdır.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800/80 mt-2 text-xs text-slate-300 space-y-2">
+          <h4 class="font-bold text-amber-400 flex items-center gap-1.5 text-sm">
+            <i data-lucide="info" class="w-4 h-4"></i>
+            Ürün Bazlı Reçete Malzeme Maliyetlerinizi Ekleyebilirsiniz!
+          </h4>
+          <p class="leading-relaxed">
+            Şu anki muhasebe sisteminizde tedarikçi faturaları (CNR Gıda, Manav vb.) genel toplam olarak kayıtlıdır. Eğer isterseniz; en çok satan ürünlerinizin (Tiramisu porsiyon maliyeti, New York Cookie hammadde maliyeti, Focaccia Tost maliyeti vb.) tek tek reçete maliyetlerini bize verdiğiniz takdirde, bu portala <strong>"Ürün Bazlı Brüt Kâr & Reçete Simülatörü"</strong> entegre edebiliriz!
+          </p>
+        </div>
+      </div>
+
+    
+            <!-- Strateji 5.1: Alternatif Toptancı & Hammadde Maliyet Düşürme Rehberi -->
+      <div class="glass-card rounded-2xl p-6 border border-emerald-500/30 bg-gradient-to-r from-slate-900 via-emerald-950/20 to-slate-900 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-800 gap-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+              <i data-lucide="truck" class="w-5 h-5 text-emerald-400"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-white">Ankara Toptancı & Maliyet Düşürme Rehberi (CNR Gıda & Manav Alternatifleri)</h3>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Aylık ~20.000 ₺ Tasarruf</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">CNR Gıda (157.8k ₺) ve Güleryüz Manav (52.8k ₺) fatura kalemlerinin analizi ve 1. el toptancı çözümleri</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs bg-amber-500/10 text-amber-300 font-bold border border-amber-500/20">
+            Mevcut Food Cost: %44,5 ➔ Hedef: %32-%35
+          </span>
+        </div>
+
+        <!-- Fatura Analizi: Neden Pahalı Geliyor? -->
+        <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 space-y-2">
+          <h4 class="text-sm font-bold text-rose-300 flex items-center gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+            Fatura Kalemleri Denetimi: Maliyetleri Şişiren 3 Temel Satın Alma Hatası
+          </h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Muhasebenizdeki <strong>394 fatura kalemi</strong> tek tek incelendiğinde, CNR Gıda ve Manav'ın pahalı hissettirmesinin ana nedenleri tespit edilmiştir:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs pt-1">
+            <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800 space-y-1">
+              <div class="font-bold text-amber-400">1. Ev Tipi / Perakende Paket Tuzağı</div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Krema 1 litrelik Horeca boy yerine <strong>200 ml'lik Sütaş paketlerle</strong> alınıyor. Tereyağı Migros'tan perakende <strong>474 ₺/kg</strong>'ye alınıyor. Tellioğlu Un Pazarama'dan 5 kg kargo ile alınıyor. Perakende ambalaj maliyeti en az %30-40 şişiriyor.
+              </p>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800 space-y-1">
+              <div class="font-bold text-amber-400">2. İşlenmiş / Kolaylık Primi</div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Ekici Rende Mozarella'ya <strong>436 ₺/kg</strong> ödeniyor (4 ayda 39.156 ₺!). Blok alıp rende makinesinde çekmek yerine hazır rende alındığı için büyük kâr kaybı var. Samsa için taze ıspanak yerine manavdan <strong>355 ₺/kg bebek ıspanak</strong> alınıyor (Hal'de taze ıspanak 35-40 ₺!).
+              </p>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800 space-y-1">
+              <div class="font-bold text-amber-400">3. Aracı Distribütör Marjı</div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                CNR Gıda ve Güleryüz Manav son dağıtıcıdır; GİMAT toptancılarından ve Toptancı Hali'nden aldıkları ürünlerin üzerine kapıya getirme, lojistik ve kâr marjı olarak <strong>%25 ila %50</strong> koyarlar.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ürün Bazlı Karşılaştırma & Tasarruf Tablosu -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="scale" class="w-4 h-4 text-emerald-400"></i>
+              Kritik Ürünlerde Fiyat Karşılaştırması & Tasarruf Potansiyeli
+            </h4>
+            <span class="text-xs text-slate-400">Gerçek Fatura vs Ankara Toptancı Fiyatları</span>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-800">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-900/90 text-slate-300 border-b border-slate-800 text-[11px]">
+                  <th class="py-2.5 px-3">Hammadde / Ürün</th>
+                  <th class="py-2.5 px-3">Mevcut Alım Yeri</th>
+                  <th class="py-2.5 px-3">Ödenen Birim Fiyat</th>
+                  <th class="py-2.5 px-3 text-emerald-400">Önerilen 1. El Toptancı</th>
+                  <th class="py-2.5 px-3 text-emerald-400">Hedef Toptan Fiyat</th>
+                  <th class="py-2.5 px-3 text-right">Tahmini Tasarruf</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 font-mono text-[11px]">
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-sans font-medium text-white">Mozarella Peyniri (4 ayda 39k ₺)</td>
+                  <td class="py-2.5 px-3 text-slate-400">CNR Gıda (Ekici Rende 2kg)</td>
+                  <td class="py-2.5 px-3 text-rose-400 font-bold">436 ₺ / kg</td>
+                  <td class="py-2.5 px-3 text-emerald-300 font-sans">GİMAT Süt Ürünleri (Blok Mozarella)</td>
+                  <td class="py-2.5 px-3 text-emerald-400 font-bold">230 – 260 ₺ / kg</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400 font-bold font-sans">%42 (16.500 ₺)</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-sans font-medium text-white">Ispanak (Samsa harcı için)</td>
+                  <td class="py-2.5 px-3 text-slate-400">Güleryüz Manav (Paket 500g)</td>
+                  <td class="py-2.5 px-3 text-rose-400 font-bold">355 ₺ / kg (177 ₺/pk)</td>
+                  <td class="py-2.5 px-3 text-emerald-300 font-sans">Ankara Hali / Metro Horeca (Dökme Kasa)</td>
+                  <td class="py-2.5 px-3 text-emerald-400 font-bold">35 – 50 ₺ / kg</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400 font-bold font-sans">%85 (7.200 ₺)</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-sans font-medium text-white">Tereyağı (Bakery & Kurabiye)</td>
+                  <td class="py-2.5 px-3 text-slate-400">Migros (1 kg perakende)</td>
+                  <td class="py-2.5 px-3 text-rose-400 font-bold">474 ₺ / kg</td>
+                  <td class="py-2.5 px-3 text-emerald-300 font-sans">GİMAT (10-25 kg Blok Horeca Tereyağı)</td>
+                  <td class="py-2.5 px-3 text-emerald-400 font-bold">290 – 320 ₺ / kg</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400 font-bold font-sans">%34 (4.500 ₺)</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-sans font-medium text-white">Fesleğen & Yeşillik (Pesto için)</td>
+                  <td class="py-2.5 px-3 text-slate-400">Güleryüz Manav (Erüst paket)</td>
+                  <td class="py-2.5 px-3 text-rose-400 font-bold">790 ₺ / kg</td>
+                  <td class="py-2.5 px-3 text-emerald-300 font-sans">Ankara Hali Erüst Bayisi / Metro Horeca</td>
+                  <td class="py-2.5 px-3 text-emerald-400 font-bold">420 – 480 ₺ / kg</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400 font-bold font-sans">%40 (4.600 ₺)</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-sans font-medium text-white">Krema %35 Yağlı (Pastacılık)</td>
+                  <td class="py-2.5 px-3 text-slate-400">CNR Gıda (Sütaş 200 ml)</td>
+                  <td class="py-2.5 px-3 text-rose-400 font-bold">502 ₺ / Litre (100 ₺/kutu)</td>
+                  <td class="py-2.5 px-3 text-emerald-300 font-sans">GİMAT / Koza Gıda (1 Litrelik Horeca)</td>
+                  <td class="py-2.5 px-3 text-emerald-400 font-bold">140 – 170 ₺ / Litre</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400 font-bold font-sans">%68 (3.700 ₺)</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-sans font-medium text-white">Füme Dana Et & Antrikot & Cotto</td>
+                  <td class="py-2.5 px-3 text-slate-400">Fulya / Yayla-Türk & CNR</td>
+                  <td class="py-2.5 px-3 text-rose-400 font-bold">2.100 – 2.626 ₺ / kg</td>
+                  <td class="py-2.5 px-3 text-emerald-300 font-sans">GİMAT Şarküteri Toptancıları / Ege Füme</td>
+                  <td class="py-2.5 px-3 text-emerald-400 font-bold">1.500 – 1.850 ₺ / kg</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400 font-bold font-sans">%28 (15.500 ₺)</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-sans font-medium text-white">Çift Duvarlı Karton Bardak (14 oz)</td>
+                  <td class="py-2.5 px-3 text-slate-400">Alfamarkt / CNR</td>
+                  <td class="py-2.5 px-3 text-rose-400 font-bold">5,35 ₺ / Adet</td>
+                  <td class="py-2.5 px-3 text-emerald-300 font-sans">Murpak Kağıtçılık / İvedik OSB Ambalaj</td>
+                  <td class="py-2.5 px-3 text-emerald-400 font-bold">2,60 – 3,10 ₺ / Adet</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400 font-bold font-sans">%45 (3.000 ₺)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Ankara İçi Somut Toptancı ve Tedarikçi Önerileri -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <!-- 1. Taze Sebze & Meyve -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2.5">
+            <div class="flex items-center space-x-2 text-emerald-400 font-bold">
+              <i data-lucide="carrot" class="w-4 h-4"></i>
+              <span>1. Taze Sebze & Yeşillik</span>
+            </div>
+            <div class="text-[11px] text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong class="text-white">Ankara Toptancı Hali (Yenimahalle):</strong> Çankaya'ya 18 dk mesafede. Güleryüz Manav'a kıyasla <strong>%40-50 daha ucuzdur</strong>. Erüst yeşillik, çeri domates, avokado ve limon sandık bazında doğrudan hal komisyoncusundan alınmalıdır.</p>
+              <p><strong class="text-white">Metro Grossmarket Horeca (Etlik / Batıkent):</strong> Vergi levhanızla işletme kartı çıkartın. Haftalık toplu sebze/yeşillik alımlarında hem fatura %100 nizami hem manavdan %30 daha uygundur.</p>
+              <div class="pt-1 text-[10px] text-emerald-400 font-medium">💡 İpucu: Haldeki bir komisyoncuyla anlaşıp Salı ve Cuma sabahı dükkana teslim kasa servisi bağlayabilirsiniz.</div>
+            </div>
+          </div>
+
+          <!-- 2. Süt & Peynir & Şarküteri -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2.5">
+            <div class="flex items-center space-x-2 text-amber-400 font-bold">
+              <i data-lucide="milk" class="w-4 h-4"></i>
+              <span>2. Süt, Peynir & Şarküteri</span>
+            </div>
+            <div class="text-[11px] text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong class="text-white">GİMAT Toptancılar Sitesi (Macunköy):</strong> Türkiye'nin en büyük gıda toptancı üssü.</p>
+              <p><strong class="text-white">Ergüven Süt / Güvenler Gıda (GİMAT):</strong> Faturalarınızda zaten adı geçiyor! CNR aradan çıkarılıp doğrudan Güvenler veya Akdeniz Süt Ürünleri'nden <strong>blok mozarella (rendelenmemiş), tost kaşarı ve 10 kg blok tereyağı</strong> toptan alınmalıdır.</p>
+              <p><strong class="text-white">GİMAT Şarkütericiler Çarşısı:</strong> Namet, Polonez, Ege Füme yetkili toptancıları buradadır. Dana cotto ve sucuk %25 indirimli toptan koliyle alınır.</p>
+            </div>
+          </div>
+
+          <!-- 3. Pastacılık & Çikolata -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2.5">
+            <div class="flex items-center space-x-2 text-purple-400 font-bold">
+              <i data-lucide="cake" class="w-4 h-4"></i>
+              <span>3. Pastacılık & Belçika Çikolatası</span>
+            </div>
+            <div class="text-[11px] text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong class="text-white">Öztürk Pastacılık (GİMAT):</strong> Ankara'daki butik fırınların ve pastanelerin ana tedarikçisi. Callebaut / Belcolade Belçika kuvertür çikolatası, fındık/fıstık ezmesi, mascarpone, jöle ve pasta unları 1. el fiyattır.</p>
+              <p><strong class="text-white">Koza Gıda Ankara (Ostim):</strong> Türkiye'nin en kaliteli Horeca gurme distribütörü. Lotus Biscoff ezmesi, Fransız tereyağı, Monin şuruplar ve profesyonel pastacılık kreması doğrudan teslim edilir.</p>
+              <p><strong class="text-white">GİMAT Uncular Sitesi:</strong> Tellioğlu 50 kg pastalık çuval un (kg'ı 15 ₺'ye gelir, Pazarama'da 30 ₺ ödeniyor!).</p>
+            </div>
+          </div>
+
+          <!-- 4. Ambalaj & Kahve Çekirdeği -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2.5">
+            <div class="flex items-center space-x-2 text-blue-400 font-bold">
+              <i data-lucide="coffee" class="w-4 h-4"></i>
+              <span>4. Ambalaj & Nitelikli Kahve</span>
+            </div>
+            <div class="text-[11px] text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong class="text-white">Murpak Kağıtçılık & İvedik Ambalaj:</strong> Çift duvarlı karton bardak, sızdırmaz kase ve kraft kutular koli bazlı alımda 5,35 ₺ yerine 2,80 ₺ bandına iner.</p>
+              <p><strong class="text-white">Ankara Nitelikli Kahve Roastery'leri:</strong> Tchibo'yu İdefix'ten 661 ₺'ye tek paket almak yerine, Ankara yerel kavurucuları (Paper Roasting, Spada, Null, Gordion) veya Tchibo Horeca Bölge Müdürlüğü ile <strong>aylık 20-30 kg toptan çekirdek anlaşması</strong> yapılmalıdır. Kg maliyeti 400-450 ₺'ye düşerken kahve kalitesi ikiye katlanır.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Adımlı Uygulama Eylem Planı -->
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+              3 Adımlı Maliyet Düşürme Eylem Planı (Hemen Başlanabilir)
+            </h4>
+            <span class="text-[11px] text-emerald-400 font-bold">Hedef: Ayda ~20.000 ₺ Ekstra Kâr</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800/80 space-y-1">
+              <div class="font-bold text-blue-300">Adım 1: Dükkana Endüstriyel Peynir Rendeleme Makinesi Alın (1 Kez)</div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                CNR'dan hazır rendelenmiş mozarella almak yerine GİMAT'tan blok mozarella alın. Dükkanda kendiniz rendeleyerek sadece bu kalemde <strong>ayda 4.000 ₺</strong> net kârı kasada tutun.
+              </p>
+            </div>
+            <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800/80 space-y-1">
+              <div class="font-bold text-blue-300">Adım 2: Ankara Hali / Erüst ile Haftalık 2 Gün Sabit Dağıtım Bağlayın</div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Güleryüz Manav'a günlük sipariş vermek yerine, haftada 2 gün (Salı - Cuma) Hal'den sandıkla dökme yeşillik ve sebze getirtin. Samsa için taze dökme ıspanak kullanarak <strong>ayda 5.000 ₺</strong> tasarruf edin.
+              </p>
+            </div>
+            <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800/80 space-y-1">
+              <div class="font-bold text-blue-300">Adım 3: GİMAT'ta Öztürk & Güvenler ile Aylık Cari Hesap Açın</div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Migros ve internet pazar yerlerinden (Pazarama/Amazon) küçük küçük almak yerine, ayda 1 kez 50 kg un, 20 kg tereyağı ve pastacılık çikolatası koli bazlı kapıya sevkiyat anlaşması yapın.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Strateji 6: IVF (Tüp Bebek) Merkezi İçi Kafe Özel Büyüme Stratejisi -->
+      <div class="glass-card rounded-2xl p-6 border border-pink-500/30 bg-gradient-to-r from-slate-900 via-pink-950/20 to-slate-900 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center">
+              <i data-lucide="heart-pulse" class="w-5 h-5 text-pink-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">IVF (Tüp Bebek) Merkezi Kafe Stratejisi (Çiftler, Bekleme Süreleri & 18:00 Kapanış)</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Yatan hasta olmayan, çiftlerin uzun süre beklediği ve hassas beslendiği merkeze özel 4 gelir motoru</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs bg-pink-500/10 text-pink-400 font-bold border border-pink-500/20 self-start sm:self-auto">IVF Konsepti</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <!-- 1. Kafeinsiz (Decaf) Kahve -->
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2 hover:border-pink-500/40 transition">
+            <div class="flex items-center gap-1.5 text-pink-400 font-bold text-sm">
+              <i data-lucide="coffee" class="w-4 h-4"></i>
+              1. Kafeinsiz (Decaf) Kahve (1 Numaralı Fırsat!)
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              <strong>Kitle:</strong> Tedavi ve transfer sürecindeki anne adayları.<br>
+              <strong>Fırsat:</strong> Doktorlar kafeini yasaklar veya günde 1 fincanla sınırlar. Kadınlar kahve içmek ister ama içemez!<br>
+              <strong class="text-pink-300">Aksiyon:</strong> Menüye <em>"Doğal Swiss Water Yöntemiyle Kafeinsizleştirilmiş Decaf Americano & Decaf Latte"</em> ekleyin. Merkezdeki kadın hastaların tartışmasız 1 numaralı tercihi olur.
+            </p>
+          </div>
+
+          <!-- 2. İki Kişilik Çift Menüleri -->
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2 hover:border-pink-500/40 transition">
+            <div class="flex items-center gap-1.5 text-amber-400 font-bold text-sm">
+              <i data-lucide="users" class="w-4 h-4"></i>
+              2. İki Kişilik Çift Menüleri (Uzun Bekleme & Moral)
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              <strong>Kitle:</strong> Tahlil ve randevu aralarında 1-2 saat salonda birlikte bekleyen çiftler.<br>
+              <strong>Fırsat:</strong> Stresli ve duygusal bir bekleme sürecidir; baş başa kahvaltı ve sıcak içecek tüketirler.<br>
+              <strong class="text-amber-300">Aksiyon:</strong> "İki Kişilik Çift Kahvaltısı (2 Tost + 2 İçecek)" veya "Moral Molası (Paylaşımlı Tiramisu / Cookie + 2 İçecek)" paketleri sunun.
+            </p>
+          </div>
+
+          <!-- 3. Tahlil ve OPU Sonrası Hafif Kahvaltı -->
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2 hover:border-pink-500/40 transition">
+            <div class="flex items-center gap-1.5 text-emerald-400 font-bold text-sm">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              3. Tahlil & İşlem Sonrası "Mide Dostu" Kahvaltı
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              <strong>Kitle:</strong> Sabah 08:00 – 10:30 arası aç karnına kan veren veya işlemden çıkan hastalar.<br>
+              <strong>Fırsat:</strong> Mideyi bulandırmayan, gaz yapmayan, sindirimi çok kolay besinler aranır.<br>
+              <strong class="text-emerald-300">Aksiyon:</strong> Ekşi mayalı sıcak focaccia kaşarlı tost, ceviz, taze ıspanaklı Samsa ve rahatlatıcı taze ıhlamur/nane çayı kombinasyonu.
+            </p>
+          </div>
+
+          <!-- 4. Glutensiz & Antioksidan Clean Eating -->
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2 hover:border-pink-500/40 transition">
+            <div class="flex items-center gap-1.5 text-blue-400 font-bold text-sm">
+              <i data-lucide="apple" class="w-4 h-4"></i>
+              4. Glutensiz & Antioksidan "Clean Eating" Menüsü
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              <strong>Kitle:</strong> IVF sürecinde Akdeniz tipi / glutensiz beslenen bilinçli kitle.<br>
+              <strong>Fırsat:</strong> Menünüzdeki <strong>Glutensiz Bagel'ın 135 adet satması</strong> bu kitlenin kanıtıdır!<br>
+              <strong class="text-blue-300">Aksiyon:</strong> Avokadolu sandviç (Heritage Gusto 2), cevizli kek ve yeşil detox içeceğini menüde <em>"IVF & Doğal Beslenme Dostu"</em> simgeleriyle öne çıkarın.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strateji 7: Trendyol Go vs Yemeksepeti Detaylı Karşılaştırması & Strateji -->
+      <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center">
+              <i data-lucide="layers" class="w-5 h-5 text-orange-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Trendyol Go vs Yemeksepeti Birebir Karşılaştırması & Platform Stratejisi</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Heritage'ın muhasebe kayıtlarındaki 326 siparişin platform bazında kesin performansı</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs bg-orange-500/10 text-orange-400 font-bold border border-orange-500/20 self-start sm:self-auto">Platform Düellosu</span>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left text-xs whitespace-nowrap">
+            <thead>
+              <tr class="bg-slate-950/80 text-slate-400 font-semibold border-b border-slate-800">
+                <th class="py-3 px-3">Metrik / Karşılaştırma</th>
+                <th class="py-3 px-3 text-orange-400 text-right">Trendyol Go (Ana Motor)</th>
+                <th class="py-3 px-3 text-rose-400 text-right">Yemeksepeti (Düşüşte)</th>
+                <th class="py-3 px-3 text-slate-300 text-center">Fark & Stratejik Yorum</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-medium">
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">Teslim Edilen Sipariş Sayısı</td>
+                <td class="py-3 px-3 text-right font-extrabold text-orange-400">266 Sipariş (%81,8)</td>
+                <td class="py-3 px-3 text-right font-bold text-rose-400">59 Sipariş (%18,2)</td>
+                <td class="py-3 px-3 text-center text-slate-300"><span class="text-emerald-400 font-bold">4,5 Kat Daha Fazla Hacim</span> Trendyol'da</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">Toplam Brüt Satış Tutarı</td>
+                <td class="py-3 px-3 text-right font-extrabold text-orange-400">148.097,00 ₺ (%84,6)</td>
+                <td class="py-3 px-3 text-right font-bold text-rose-400">26.851,00 ₺ (%15,4)</td>
+                <td class="py-3 px-3 text-center text-slate-300"><span class="text-emerald-400 font-bold">5,5 Kat Daha Fazla Ciro</span> Trendyol'dan geliyor</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">Ortalama Sepet Tutarı (AOV)</td>
+                <td class="py-3 px-3 text-right font-extrabold text-orange-400">556,76 ₺</td>
+                <td class="py-3 px-3 text-right font-bold text-rose-400">455,10 ₺</td>
+                <td class="py-3 px-3 text-center text-slate-300">Trendyol müşterisi sepet başına <strong>+101,66 ₺ (%22)</strong> daha fazla harcıyor</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">Toplam Kesinti Tutarı & Oranı</td>
+                <td class="py-3 px-3 text-right font-bold text-slate-300">57.300,57 ₺ (<span class="text-rose-400 font-bold">%38,7</span>)</td>
+                <td class="py-3 px-3 text-right font-bold text-slate-300">10.554,90 ₺ (<span class="text-rose-400 font-bold">%39,3</span>)</td>
+                <td class="py-3 px-3 text-center text-slate-300">İki platform da neredeyse aynı devasa kesintiyi yapıyor (%39)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">Aylık Trend (Temmuz ➔ Ekim)</td>
+                <td class="py-3 px-3 text-right font-medium text-slate-300">76 ➔ 71 ➔ 79 ➔ 40 Sipariş</td>
+                <td class="py-3 px-3 text-right font-medium text-rose-400">20 ➔ 21 ➔ 9 ➔ 9 Sipariş</td>
+                <td class="py-3 px-3 text-center text-slate-300">Yemeksepeti son 2 ayda <strong>%55 kan kaybetmiş</strong>; Trendyol liderliğini koruyor</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-bold text-slate-200">İptal Edilen Sipariş Sayısı</td>
+                <td class="py-3 px-3 text-right font-bold text-emerald-400">0 İptal (Kusursuz)</td>
+                <td class="py-3 px-3 text-right font-bold text-amber-400">1 İptal (503 ₺ kayıp)</td>
+                <td class="py-3 px-3 text-center text-slate-300">Trendyol mutfak operasyonuyla mükemmel entegre çalışmış</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 text-xs">
+          <div class="p-4 bg-orange-950/20 border border-orange-500/30 rounded-xl space-y-2">
+            <h4 class="font-bold text-orange-400 flex items-center gap-1.5 text-sm">
+              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+              Trendyol Go Stratejisi (Ana Gelir Motoru)
+            </h4>
+            <p class="text-slate-300 leading-relaxed">
+              • Cironun %85'ini getirdiği için online'da ana odak Trendyol Go olmalıdır.<br>
+              • Ancak <strong>taşıma/hizmet kesintisi 37.320 ₺</strong> ile komisyonun (19.280 ₺) neredeyse 2 katıdır! Bu yüzden Trendyol menü fiyatları dükkan fiyatından %15 yukarıda tutulmalı, dükkana doğrudan gelen hasta ve personelin avantajı korunmalıdır.<br>
+              • 556 ₺ olan sepet ortalamasını daha da yukarı çekmek için <strong>"600 ₺ üzeri siparişe hediye kutu madlen"</strong> veya <strong>"Kademeli İndirim"</strong> açılmalıdır.
+            </p>
+          </div>
+
+          <div class="p-4 bg-rose-950/20 border border-rose-500/30 rounded-xl space-y-2">
+            <h4 class="font-bold text-rose-400 flex items-center gap-1.5 text-sm">
+              <i data-lucide="alert-circle" class="w-4 h-4"></i>
+              Yemeksepeti Stratejisi (Kurtarma Planı)
+            </h4>
+            <p class="text-slate-300 leading-relaxed">
+              • Sipariş sayısı Eylül ve Ekim aylarında 9'a kadar düşmüştür (Haftada sadece 2 sipariş!).<br>
+              • Yemeksepeti algoritmasında geriye düşmüş durumdasınız. Kurtarmak için:<br>
+              1. Hafta içi 11:30 – 14:00 saatleri arasında Yemeksepeti'nde <strong>"Günün Süper Menüsü"</strong> (Focaccia Tost + İçecek) flaş indirimi açarak puan ve sıralama yükseltilmeli.<br>
+              2. Eğer bu hareketlenmeye rağmen sipariş sayısı aylık 15'in altında kalırsa, gereksiz tablet ve operasyon yükü yerine tüm enerji Trendyol Go'ya ve hastane içi doğrudan kat servisine verilmelidir.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB 5: PERSONEL MAAŞLARI & KÂR SİMÜLATÖRÜ   -->
+    <!-- ========================================== -->
+    <section id="tab-salary" class="tab-content space-y-8 hidden">
+      
+      <div class="glass-card rounded-2xl p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="users" class="w-5 h-5 text-amber-400"></i>
+              Personel Kadrosu, Maaşlar & Dinamik Kâr Simülatörü
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">
+              Personel maaşlarını düzenleyin, ekleyin veya kaldırın; Net Kâr ve marjlar anında otomatik hesaplanır
+            </p>
+          </div>
+          <button onclick="addStaffRow()" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition flex items-center gap-1.5 self-start sm:self-auto">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+            <span>Yeni Personel Ekle</span>
+          </button>
+        </div>
+
+        <!-- Simulation KPI summary cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-5">
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <span class="text-xs text-slate-400">Aylık Toplam Maaş Gideri:</span>
+            <div class="text-xl font-black text-rose-400 mt-1" id="sim-monthly-salary">65.000,00 ₺</div>
+            <span class="text-[11px] text-slate-400">Ay Başına Personel Maliyeti</span>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <span class="text-xs text-slate-400">4 Aylık Toplam Maaş Gideri:</span>
+            <div class="text-xl font-black text-rose-400 mt-1" id="sim-total-salary">260.000,00 ₺</div>
+            <span class="text-[11px] text-slate-400">Temmuz – Ekim 2026 Toplamı</span>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <span class="text-xs text-slate-400">Maaşlar Sonrası Nihai Net Kâr:</span>
+            <div class="text-xl font-black text-emerald-400 mt-1" id="sim-final-net-profit">148.201,48 ₺</div>
+            <span class="text-[11px] text-emerald-400 font-bold" id="sim-final-margin">%20,1 Net Kâr Marjı</span>
+          </div>
+        </div>
+
+        <!-- Staff List Table -->
+        <div class="overflow-x-auto custom-scrollbar mt-6">
+          <table class="w-full text-left text-xs whitespace-nowrap">
+            <thead>
+              <tr class="bg-slate-900 text-slate-400 font-semibold border-b border-slate-800">
+                <th class="py-3 px-3">Pozisyon / Görev</th>
+                <th class="py-3 px-3">Personel Adı</th>
+                <th class="py-3 px-3 text-center">Kişi Sayısı</th>
+                <th class="py-3 px-3 text-right">Aylık Net Maaş (₺)</th>
+                <th class="py-3 px-3 text-right">Aylık Toplam (₺)</th>
+                <th class="py-3 px-3 text-right">4 Aylık Maliyet (₺)</th>
+                <th class="py-3 px-3 text-center">İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="staff-table-tbody" class="divide-y divide-slate-800/60 font-medium">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+            <tfoot class="border-t-2 border-slate-700 bg-slate-900/80 font-bold text-slate-100">
+              <tr>
+                <td colspan="4" class="py-3 px-3 text-right">TOPLAM PERSONEL MALİYETİ:</td>
+                <td class="py-3 px-3 text-right text-rose-400" id="staff-tfoot-monthly">65.000,00 ₺</td>
+                <td class="py-3 px-3 text-right text-rose-400" id="staff-tfoot-total">260.000,00 ₺</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Profit Bridge Breakdown -->
+        <div class="mt-8 p-5 rounded-xl bg-slate-900/50 border border-slate-800 space-y-3">
+          <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="calculator" class="w-4 h-4 text-amber-400"></i>
+            Kâr Köprüsü Hesaplama Formülü
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+            <div class="p-3 bg-slate-800/40 rounded-lg text-center">
+              <span class="text-slate-400">Net Gelir</span>
+              <div class="text-sm font-bold text-emerald-400 mt-1">736.219,53 ₺</div>
+            </div>
+            <div class="flex items-center justify-center text-slate-500 font-bold text-lg">-</div>
+            <div class="p-3 bg-slate-800/40 rounded-lg text-center">
+              <span class="text-slate-400">Tedarik & Giderler</span>
+              <div class="text-sm font-bold text-rose-400 mt-1">328.018,05 ₺</div>
+            </div>
+            <div class="flex items-center justify-center text-slate-500 font-bold text-lg">-</div>
+            <div class="p-3 bg-slate-800/40 rounded-lg text-center">
+              <span class="text-slate-400">Personel Maaşları</span>
+              <div class="text-sm font-bold text-rose-400 mt-1" id="bridge-salary-val">260.000,00 ₺</div>
+            </div>
+          </div>
+          <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg flex items-center justify-between text-xs">
+            <span class="text-amber-300 font-semibold">= Nihai Kalan Net Kâr (Cepheye Kalan Nakit):</span>
+            <span class="text-base font-black text-amber-400" id="bridge-net-profit">148.201,48 ₺ (%20,1)</span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  
+    <!-- ========================================== -->
+    <!-- TAB 6: TAHMİNLEME (FORECASTING) & RİSK ANALİZİ -->
+    <!-- ========================================== -->
+    <section id="tab-forecast" class="tab-content space-y-8 hidden">
+      
+      <!-- Top Banner: Seasonal Forecasting & Strategic Risk Intro -->
+      <div class="glass-card rounded-2xl p-6 border border-purple-500/30 bg-gradient-to-r from-purple-950/20 via-slate-900 to-indigo-950/20 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center shrink-0">
+              <i data-lucide="calendar-range" class="w-6 h-6 text-purple-400"></i>
+            </div>
+            <div>
+              <h2 class="text-base font-bold text-white flex items-center gap-2">
+                12 Aylık Finansal Tahminleme (Forecasting) & Sezonluk Risk Analizi
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Okulların açılması/kapanması, sömestr, ara tatiller, Ramazan ve Ankara yaz rehavetine göre 12 aylık ciro ve kriz kalkanı
+              </p>
+            </div>
+          </div>
+
+          <!-- Scenario Switcher -->
+          <div class="flex items-center bg-slate-900 rounded-lg p-1 border border-slate-800 text-xs self-start sm:self-auto">
+            <button onclick="setForecastScenario('realistic')" id="btn-scen-realistic" class="scen-btn px-3 py-1.5 rounded font-semibold text-purple-400 bg-purple-500/15">Gerçekçi (Önerilen)</button>
+            <button onclick="setForecastScenario('optimistic')" id="btn-scen-optimistic" class="scen-btn px-3 py-1.5 rounded font-medium text-slate-400 hover:text-slate-200">İyimser (+%15)</button>
+            <button onclick="setForecastScenario('pessimistic')" id="btn-scen-pessimistic" class="scen-btn px-3 py-1.5 rounded font-medium text-slate-400 hover:text-slate-200">Kötümser / Savunma (-%12)</button>
+          </div>
+        </div>
+
+        <!-- Forecasting KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800">
+            <span class="text-xs text-slate-400">12 Aylık Tahmini Brüt Satış:</span>
+            <div class="text-xl font-black text-white mt-1" id="fc-gross">2.348.000,00 ₺</div>
+            <span class="text-[11px] text-blue-400" id="fc-gross-sub">Yıllık Konsolide Projeksiyon</span>
+          </div>
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800">
+            <span class="text-xs text-slate-400">12 Aylık Tahmini Net Gelir:</span>
+            <div class="text-xl font-black text-emerald-400 mt-1" id="fc-net">2.180.500,00 ₺</div>
+            <span class="text-[11px] text-slate-400">Kasa + Platform Hakedişleri</span>
+          </div>
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800">
+            <span class="text-xs text-slate-400">Toplam Giderler (Maaş + Hammadde):</span>
+            <div class="text-xl font-black text-rose-400 mt-1" id="fc-expense">1.745.000,00 ₺</div>
+            <span class="text-[11px] text-slate-400">780k ₺ Maaş + 965k ₺ Hammadde</span>
+          </div>
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800">
+            <span class="text-xs text-slate-400">Yıllık Tahmini Net Nakit Kâr:</span>
+            <div class="text-xl font-black text-amber-400 mt-1" id="fc-profit">435.500,00 ₺</div>
+            <span class="text-[11px] text-emerald-400 font-bold" id="fc-margin">%20,0 Yıllık Net Marj</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12-Month Forecasting Chart -->
+      <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="bar-chart-2" class="w-5 h-5 text-purple-400"></i>
+              12 Aylık Gelir & Mevsimsel Dalgalanma Eğrisi (Forecast Curve)
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">Gerçekleşen 4 ay (Temmuz-Ekim) + 8 aylık mevsimsel tahmin projeksiyonu</p>
+          </div>
+          <div class="flex items-center gap-3 text-xs text-slate-400">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-emerald-500"></span> Gerçekleşen Aylar</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-purple-500"></span> Tahmin Edilen Aylar</span>
+          </div>
+        </div>
+        <div class="h-80">
+          <canvas id="forecastChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 12-Month Detailed Forecasting Table -->
+      <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="table" class="w-5 h-5 text-blue-400"></i>
+              Aylık Tahmin Dökümü & Takvim Olayları
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">Her ayın takvimsel dinamiği, beklenen gelir, gider ve kâr tablosu</p>
+          </div>
+        </div>
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left text-xs whitespace-nowrap">
+            <thead>
+              <tr class="bg-slate-950/80 text-slate-400 font-semibold border-b border-slate-800">
+                <th class="py-3 px-3">Ay / Dönem</th>
+                <th class="py-3 px-3">Takvim & Sezon Olayı</th>
+                <th class="py-3 px-3 text-right">Tahmini Gelir (₺)</th>
+                <th class="py-3 px-3 text-right">Maaş + Hammadde (₺)</th>
+                <th class="py-3 px-3 text-right text-emerald-400">Tahmini Net Kâr (₺)</th>
+                <th class="py-3 px-3 text-center">Durum</th>
+                <th class="py-3 px-3">Sezonluk Fırsat / Risk Önlemi</th>
+              </tr>
+            </thead>
+            <tbody id="forecast-table-tbody" class="divide-y divide-slate-800/60 font-medium">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Comprehensive Risk Matrix (5 Ana Risk ve Savunma Kalkanı) -->
+      <div class="glass-card rounded-2xl p-6 border border-rose-500/30 bg-gradient-to-b from-slate-900 to-rose-950/10 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center">
+              <i data-lucide="shield-alert" class="w-5 h-5 text-rose-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">5 Ana Mevsimsel Risk ve Savunma Kalkanı</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Kriz dönemlerinde nakit akışını ve kârlılığı koruyacak önleyici tedbirler</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs bg-rose-500/10 text-rose-400 font-bold border border-rose-500/20 self-start sm:self-auto">Risk Matrisi</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-xs">
+          
+          <!-- Risk 1: Okul Kapanışı & Yaz Boşalması -->
+          <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-3 hover:border-rose-500/40 transition">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="font-bold text-rose-400 flex items-center gap-1.5 text-sm">
+                <i data-lucide="sun" class="w-4 h-4"></i>
+                1. Yaz Rehaveti & Ankara Boşalması (Temmuz – Ağustos)
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-rose-500/20 text-rose-300 font-bold">Yüksek Risk</span>
+            </div>
+            <div class="text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong>Tehdit:</strong> Okullar/üniversiteler kapanır, memurlar izne çıkar, IVF tedavileri sonbahara ertelenir. 4 aylık verilerinizde de Ağustos 174k ₺ ile en düşük aydır.</p>
+              <p><strong>Savunma Kalkanı:</strong></p>
+              <p>• Personelin yıllık izinleri bu iki aya planlanarak operasyon maliyeti kısılır.</p>
+              <p>• Sıcak çay/tost yerine yüksek kâr marjlı soğuk içecekler (Limonata, Iced Americano, Affogato) ve taze yaz meyveli waffle öne çıkarılır.</p>
+            </div>
+          </div>
+
+          <!-- Risk 2: Okulların & Üniversitelerin Açılması -->
+          <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-3 hover:border-emerald-500/40 transition">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="font-bold text-emerald-400 flex items-center gap-1.5 text-sm">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                2. Şehre Dönüş & Okulların Açılışı (Eylül – Ekim)
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-bold">Yılın Zirvesi</span>
+            </div>
+            <div class="text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong>Fırsat:</strong> Ankara'nın en bereketli dönemi. Ertelenen tüp bebek tedavileri başlar, çiftler akın eder. Eylül ayı 213.5k ₺ ile ciro rekoru kırmıştır.</p>
+              <p><strong>Operasyon Planı:</strong></p>
+              <p>• Mutfak un, peynir ve ambalaj stokları Ağustos sonunda tamamlanmalı.</p>
+              <p>• Sabah 08:00 – 10:30 arası tahlil kahvaltı servisinde 2 barista tam kapasite çalışarak kuyruk ve bekleme süresi sıfırlanmalıdır.</p>
+            </div>
+          </div>
+
+          <!-- Risk 3: Ara Tatiller & Sömestr -->
+          <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-3 hover:border-amber-500/40 transition">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="font-bold text-amber-400 flex items-center gap-1.5 text-sm">
+                <i data-lucide="calendar" class="w-4 h-4"></i>
+                3. Sömestr (15 Tatil) & Ara Tatiller (Kasım, Ocak, Nisan)
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 font-bold">Orta Dalgalanma</span>
+            </div>
+            <div class="text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong>Tehdit:</strong> 1-2 haftalık aile seyahatleri ve şehir dışı çıkışları nedeniyle yaya trafiğinde %10-15 geçici düşüş yaşanır.</p>
+              <p><strong>Savunma Kalkanı:</strong></p>
+              <p>• Dışarıdaki evinde oturan ailelere yönelik Trendyol Go'da "Evde Tatil & Aile Tost/Kurabiye Paketi" flaş indirimi açılır.</p>
+              <p>• Bu haftalarda fırın ekmek ve poğaça üretimi %15 kısılarak fire önlenir.</p>
+            </div>
+          </div>
+
+          <!-- Risk 4: Ramazan Ayı -->
+          <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-3 hover:border-blue-500/40 transition">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="font-bold text-blue-400 flex items-center gap-1.5 text-sm">
+                <i data-lucide="moon" class="w-4 h-4"></i>
+                4. Ramazan Ayı (Gündüz Yeme-İçme Düşüşü)
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 font-bold">Özel Dinamik</span>
+            </div>
+            <div class="text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong>Durum:</strong> Normal sokak kafelerinde gündüz satışları %50 düşer. ANCAK Heritage bir sağlık/IVF merkezindedir!</p>
+              <p><strong>Avantaj & Savunma:</strong></p>
+              <p>• Tedavideki kadınlar ilaç ve hormon kullandıkları için oruçtan muaftır; dükkan içi hasta ve personel tüketimi kesintisiz devam eder.</p>
+              <p>• Dış müşteri için saat 16:30 – 18:00 arası <em>"İftara Sıcak Focaccia Ekmek & Tatlı Kutusu Al-Götür"</em> kampanyası yapılır.</p>
+            </div>
+          </div>
+
+          <!-- Risk 5: Kış Ayazı & Kar Fırtınası -->
+          <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-3 hover:border-purple-500/40 transition">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="font-bold text-purple-400 flex items-center gap-1.5 text-sm">
+                <i data-lucide="cloud-snow" class="w-4 h-4"></i>
+                5. Kış Ayazı & Kar Yağışları (Aralık – Şubat)
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 font-bold">Mevsimsel Kış</span>
+            </div>
+            <div class="text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong>Tehdit:</strong> Kar yağdığı günlerde Trendyol kuryeleri kapanabilir, dışarıdan gelen yaya akışı durur.</p>
+              <p><strong>Savunma Kalkanı:</strong></p>
+              <p>• Merkez içindeki hastalar için sıcacık, loş ve huzurlu bir "Sığınak Kafe" atmosferi sunulur.</p>
+              <p>• Sıcak çikolata, salep, zencefilli ıhlamur ve sıcak Samsa kokusuyla kış içecekleri menüsü parlatılır.</p>
+            </div>
+          </div>
+
+          <!-- Risk 6: Gıda Enflasyonu & Tedarik Artışı -->
+          <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-3 hover:border-amber-500/40 transition">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="font-bold text-amber-400 flex items-center gap-1.5 text-sm">
+                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                6. Gıda Enflasyonu & Hammadde Artışı (CNR Gıda, Manav)
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 font-bold">Maliyet Baskısı</span>
+            </div>
+            <div class="text-slate-300 space-y-1.5 leading-relaxed">
+              <p><strong>Tehdit:</strong> Peynir, tereyağı, şarküteri ve un fiyatlarındaki artış %44,5 olan Food Cost'u %50'ye tırmandırabilir.</p>
+              <p><strong>Savunma Kalkanı:</strong></p>
+              <p>• Dayanıklı un, Belçika çikolatası ve ambalajda 2 aylık toplu alım anlaşmasıyla toptancı iskontosu alınır.</p>
+              <p>• Mutfakta porsiyonlama terazisi zorunlu kılınarak gramaj kaçakları önlenir.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-[#0d1117]">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>Heritage Cafe & Bakery · 100. Yıl, Reşit Galip St. No:18, Çankaya/ANKARA · Tel: 0 534 592 70 12</p>
+      <p class="text-slate-400 font-medium">Finansal Raporlama & Pazarlama Portalı 2026</p>
+    </div>
+  </footer>
+  </div><!-- End #app-container -->
+
+
+  <!-- Load Data -->
+  <script src="portal_data.js"></script>
+
+  <!-- Application Logic -->
+  <script>
+    // Embedded Fallback in case file:// protocol restricts external js
+    if (!window.HERITAGE_DATA) {
+      window.HERITAGE_DATA = """ + json_str + """;
+    }
+
+    const DATA = window.HERITAGE_DATA;
+
+    // State Variables
+    let currentTab = 'tab-finance';
+    let currentGlobalMonth = 'all';
+    let currentPlatformFilter = 'all';
+    let currentStatusFilter = 'all';
+    let currentSearchTerm = '';
+    let ordersCurrentPage = 1;
+    let ordersPageSize = 30;
+
+    // Staff state
+    let staffList = [
+      { id: 1, role: 'Fırın & Mutfak Şefi', name: 'Baş Aşçı (Samsa, Focaccia, Hamur)', count: 1, salary: 28000 },
+      { id: 2, role: 'Barista / Kahve Uzmanı', name: 'Baş Barista (Espresso, Latte, Reçeteler)', count: 1, salary: 20000 },
+      { id: 3, role: 'Servis & Kasa Elemanı', name: 'Kasiyer / Salon Servis', count: 1, salary: 17000 }
+    ];
+
+    // Helper: Currency Formatter
+    function formatCurrency(val) {
+      if (val === null || val === undefined || isNaN(val)) return '0,00 ₺';
+      return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val) + ' ₺';
+    }
+
+    // Helper: Number Formatter
+    function formatNumber(val) {
+      if (val === null || val === undefined || isNaN(val)) return '0';
+      return new Intl.NumberFormat('tr-TR').format(val);
+    }
+
+    // Calculation: Monthly Salary
+    function getMonthlySalaryTotal() {
+      return staffList.reduce((sum, s) => sum + (s.count * s.salary), 0);
+    }
+
+    // Tab Switching
+    function switchTab(tabId) {
+      currentTab = tabId;
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-amber-500/15', 'text-amber-400', 'border-amber-500/30');
+        btn.classList.add('text-slate-400', 'border-transparent');
+      });
+
+      const activeNav = document.getElementById('nav-' + tabId);
+      if (activeNav) {
+        activeNav.classList.remove('text-slate-400', 'border-transparent');
+        activeNav.classList.add('bg-amber-500/15', 'text-amber-400', 'border-amber-500/30');
+      }
+
+      if (tabId === 'tab-finance') {
+        renderFinanceTab();
+      } else if (tabId === 'tab-orders') {
+        renderOrdersTab();
+      } else if (tabId === 'tab-salary') {
+        renderSalaryTab();
+      } else if (tabId === 'tab-forecast') {
+        renderForecastTab();
+      }
+      lucide.createIcons();
+    }
+
+    // Global Month Filter Change
+    function onGlobalFilterChange() {
+      currentGlobalMonth = document.getElementById('global-month-filter').value;
+      renderFinanceTab();
+      renderOrdersTab();
+    }
+
+    // Render Tab 1: Finance
+    function renderFinanceTab() {
+      const monthlySalary = getMonthlySalaryTotal();
+      
+      // Calculate overall or filtered totals
+      let filteredOzet = DATA.ozet;
+      let monthFactor = 4;
+
+      if (currentGlobalMonth !== 'all') {
+        const monthMap = {
+          '2026-07': 'Temmuz 2026',
+          '2026-08': 'Ağustos 2026',
+          '2026-09': 'Eylül 2026',
+          '2026-10': 'Ekim 2026'
+        };
+        const targetMonth = monthMap[currentGlobalMonth];
+        filteredOzet = DATA.ozet.filter(o => o.ay === targetMonth);
+        monthFactor = 1;
+      }
+
+      let totBrut = 0;
+      let totNetIncome = 0;
+      let totExpenses = 0;
+      let totFaaliyetKar = 0;
+
+      // Sum from filtered ozet
+      filteredOzet.forEach(o => {
+        totNetIncome += o.gelir;
+        totExpenses += o.gider;
+        totFaaliyetKar += o.net;
+      });
+
+      // Brut calculation
+      if (currentGlobalMonth === 'all') {
+        totBrut = 804075.00;
+      } else {
+        const brutMap = { '2026-07': 213432.0, '2026-08': 192481.0, '2026-09': 232928.0, '2026-10': 165234.0 };
+        totBrut = brutMap[currentGlobalMonth] || totNetIncome;
+      }
+
+      const totSalary = monthlySalary * monthFactor;
+      const finalNetProfit = totFaaliyetKar - totSalary;
+      const netMargin = totNetIncome > 0 ? (finalNetProfit / totNetIncome * 100).toFixed(1) : '0';
+
+      // Update KPI Cards
+      document.getElementById('kpi-brut-sales').textContent = formatCurrency(totBrut);
+      document.getElementById('kpi-net-income').textContent = formatCurrency(totNetIncome);
+      document.getElementById('kpi-total-expenses').textContent = formatCurrency(totExpenses);
+      document.getElementById('kpi-net-profit').textContent = formatCurrency(finalNetProfit);
+      document.getElementById('kpi-salary-info').textContent = 'Maaşlar: ' + formatCurrency(totSalary);
+      document.getElementById('kpi-net-margin').textContent = '%' + netMargin.replace('.', ',') + ' Marj';
+
+      // Render Monthly Table
+      renderMonthlyTable(monthlySalary);
+
+      // Render Top 10 Products
+      renderTopProductsList();
+
+      // Render Daily Summary Table
+      renderDailySummaryTable();
+
+      // Update Charts
+      updateMonthlyChart();
+      updateChannelsChart();
+    }
+
+    // Render Monthly Table
+    function renderMonthlyTable(monthlySalary) {
+      const tbody = document.getElementById('monthly-finance-tbody');
+      tbody.innerHTML = '';
+
+      let sumKasa = 0, sumTrendyolNet = 0, sumYemeksepetiNet = 0, sumGelir = 0, sumGider = 0, sumFaaliyet = 0, sumNihai = 0;
+
+      const monthlyData = [
+        { ay: 'Temmuz 2026', kasa: 167820.0, tr_brut: 35989.0, tr_net: 22169.23, ys_brut: 9623.0, ys_net: 5840.29, gelir: 195829.52, gider: 90426.92 },
+        { ay: 'Ağustos 2026', kasa: 145484.0, tr_brut: 38973.0, tr_net: 23945.72, ys_brut: 8024.0, ys_net: 4869.83, gelir: 174299.55, gider: 85985.00 },
+        { ay: 'Eylül 2026', kasa: 182634.0, tr_brut: 46270.0, tr_net: 28502.26, ys_brut: 4024.0, ys_net: 2442.20, gelir: 213578.46, gider: 101362.98 },
+        { ay: 'Ekim 2026', kasa: 133189.0, tr_brut: 26865.0, tr_net: 16179.22, ys_brut: 5180.0, ys_net: 3143.78, gelir: 152512.00, gider: 50243.15 }
+      ];
+
+      monthlyData.forEach(row => {
+        const faaliyetKar = row.gelir - row.gider;
+        const nihaiKar = faaliyetKar - monthlySalary;
+        const marj = ((nihaiKar / row.gelir) * 100).toFixed(1);
+
+        sumKasa += row.kasa;
+        sumTrendyolNet += row.tr_net;
+        sumYemeksepetiNet += row.ys_net;
+        sumGelir += row.gelir;
+        sumGider += row.gider;
+        sumFaaliyet += faaliyetKar;
+        sumNihai += nihaiKar;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-bold text-white">${row.ay}</td>
+          <td class="py-3 px-3 text-slate-300">${formatCurrency(row.kasa)}</td>
+          <td class="py-3 px-3 text-slate-300">
+            <span class="text-slate-400">${formatCurrency(row.tr_brut)}</span> / 
+            <span class="text-amber-400 font-semibold">${formatCurrency(row.tr_net)}</span>
+          </td>
+          <td class="py-3 px-3 text-slate-300">
+            <span class="text-slate-400">${formatCurrency(row.ys_brut)}</span> / 
+            <span class="text-rose-400 font-semibold">${formatCurrency(row.ys_net)}</span>
+          </td>
+          <td class="py-3 px-3 text-right font-bold text-emerald-400">${formatCurrency(row.gelir)}</td>
+          <td class="py-3 px-3 text-right text-rose-400">${formatCurrency(row.gider)}</td>
+          <td class="py-3 px-3 text-right text-amber-300">${formatCurrency(monthlySalary)}</td>
+          <td class="py-3 px-3 text-right font-semibold text-slate-300">${formatCurrency(faaliyetKar)}</td>
+          <td class="py-3 px-3 text-right font-extrabold ${nihaiKar >= 0 ? 'text-emerald-400' : 'text-red-400'}">${formatCurrency(nihaiKar)}</td>
+          <td class="py-3 px-3 text-center">
+            <span class="px-2 py-0.5 rounded text-[11px] ${nihaiKar >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'} font-bold">
+              %${marj.replace('.', ',')}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Tfoot Totals
+      const totalMarj = ((sumNihai / sumGelir) * 100).toFixed(1);
+      const tfoot = document.getElementById('monthly-finance-tfoot');
+      tfoot.innerHTML = `
+        <tr>
+          <td class="py-3.5 px-3">GENEL TOPLAM (4 AY)</td>
+          <td class="py-3.5 px-3">${formatCurrency(sumKasa)}</td>
+          <td class="py-3.5 px-3">148.097 ₺ / <span class="text-amber-400">${formatCurrency(sumTrendyolNet)}</span></td>
+          <td class="py-3.5 px-3">26.851 ₺ / <span class="text-rose-400">${formatCurrency(sumYemeksepetiNet)}</span></td>
+          <td class="py-3.5 px-3 text-right text-emerald-400">${formatCurrency(sumGelir)}</td>
+          <td class="py-3.5 px-3 text-right text-rose-400">${formatCurrency(sumGider)}</td>
+          <td class="py-3.5 px-3 text-right text-amber-300">${formatCurrency(monthlySalary * 4)}</td>
+          <td class="py-3.5 px-3 text-right text-slate-200">${formatCurrency(sumFaaliyet)}</td>
+          <td class="py-3.5 px-3 text-right text-emerald-400 font-black">${formatCurrency(sumNihai)}</td>
+          <td class="py-3.5 px-3 text-center">
+            <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-extrabold">
+              %${totalMarj.replace('.', ',')}
+            </span>
+          </td>
+        </tr>
+      `;
+    }
+
+    // Render Top 10 Products List Widget
+    function renderTopProductsList() {
+      const container = document.getElementById('top-products-list');
+      container.innerHTML = '';
+
+      const top10 = DATA.urunler.slice(0, 10);
+      const maxTutar = top10[0].tutar;
+
+      top10.forEach((p, idx) => {
+        const pct = ((p.tutar / maxTutar) * 100).toFixed(0);
+        const div = document.createElement('div');
+        div.className = 'p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-amber-500/30 transition';
+        div.innerHTML = `
+          <div class="flex items-center justify-between text-xs">
+            <div class="flex items-center space-x-2">
+              <span class="w-5 h-5 rounded-md ${idx < 3 ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-800 text-slate-400'} font-bold flex items-center justify-center text-[10px]">${idx + 1}</span>
+              <div>
+                <span class="font-bold text-slate-200">${p.name}</span>
+                <span class="text-[10px] text-slate-400 ml-1.5 px-1.5 py-0.2 rounded bg-slate-800">${p.category}</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="font-extrabold text-amber-400">${formatCurrency(p.tutar)}</span>
+              <div class="text-[10px] text-slate-400">${p.adet} adet</div>
+            </div>
+          </div>
+          <div class="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+            <div class="bg-gradient-to-r from-amber-500 to-amber-400 h-full rounded-full" style="width: ${pct}%"></div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Render Daily Summary Table
+    let dailySearchTerm = '';
+    function filterDailyTable() {
+      dailySearchTerm = document.getElementById('daily-search').value.toLowerCase();
+      renderDailySummaryTable();
+    }
+
+    function renderDailySummaryTable() {
+      const tbody = document.getElementById('daily-summary-tbody');
+      tbody.innerHTML = '';
+
+      let rows = DATA.gunluk;
+      if (dailySearchTerm) {
+        rows = rows.filter(r => r.gun.toLowerCase().includes(dailySearchTerm));
+      }
+
+      rows.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-bold text-slate-200">${r.gun}</td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-semibold text-[11px]">${r.siparis}</span>
+          </td>
+          <td class="py-2.5 px-3 text-right font-medium text-slate-300">${formatCurrency(r.brut)}</td>
+          <td class="py-2.5 px-3 text-right text-rose-400 font-medium">-${formatCurrency(r.kesinti)}</td>
+          <td class="py-2.5 px-3 text-right text-emerald-400 font-bold">${formatCurrency(r.net)}</td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="px-1.5 py-0.5 rounded text-[10px] bg-rose-500/10 text-rose-300 font-bold">%${r.kesinti_pct}</span>
+          </td>
+          <td class="py-2.5 px-3 text-right text-slate-300 font-medium">${formatCurrency(r.aov)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('daily-summary-pagination').innerHTML = `
+        <span>Toplam <strong>${rows.length}</strong> gün listeleniyor</span>
+        <span>Ort. Günlük Online Satış: <strong>${formatCurrency(174948 / 98)}</strong></span>
+      `;
+    }
+
+    // Render Tab 2: Orders
+    function setPlatformFilter(plat) {
+      currentPlatformFilter = plat;
+      document.querySelectorAll('.platform-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-val') === plat) {
+          btn.classList.remove('text-slate-400');
+          btn.classList.add('text-amber-400', 'bg-amber-500/15', 'font-semibold');
+        } else {
+          btn.classList.remove('text-amber-400', 'bg-amber-500/15', 'font-semibold');
+          btn.classList.add('text-slate-400', 'font-medium');
+        }
+      });
+      ordersCurrentPage = 1;
+      renderOrdersTab();
+    }
+
+    function filterOrdersTable() {
+      currentStatusFilter = document.getElementById('orders-status-filter').value;
+      currentSearchTerm = document.getElementById('orders-search-input').value.toLowerCase();
+      ordersCurrentPage = 1;
+      renderOrdersTab();
+    }
+
+    function changeOrdersPageSize() {
+      ordersPageSize = parseInt(document.getElementById('orders-page-size').value, 10);
+      ordersCurrentPage = 1;
+      renderOrdersTab();
+    }
+
+    function renderOrdersTab() {
+      const tbody = document.getElementById('orders-table-tbody');
+      tbody.innerHTML = '';
+
+      let list = DATA.orders;
+
+      // Filter: Platform
+      if (currentPlatformFilter !== 'all') {
+        list = list.filter(o => o.platform.toLowerCase().includes(currentPlatformFilter.toLowerCase()));
+      }
+
+      // Filter: Status
+      if (currentStatusFilter !== 'all') {
+        list = list.filter(o => o.durum === currentStatusFilter);
+      }
+
+      // Filter: Search
+      if (currentSearchTerm) {
+        list = list.filter(o => 
+          o.sip_no.toLowerCase().includes(currentSearchTerm) ||
+          o.urunler.toLowerCase().includes(currentSearchTerm) ||
+          o.tarih.toLowerCase().includes(currentSearchTerm)
+        );
+      }
+
+      // Filter: Global Month
+      if (currentGlobalMonth !== 'all') {
+        list = list.filter(o => o.tarih.startsWith(currentGlobalMonth));
+      }
+
+      // Update Filtered Metrics
+      const totalFiltered = list.length;
+      let totGross = 0, totDeduction = 0, totNet = 0;
+      list.forEach(o => {
+        totGross += o.tutar;
+        totDeduction += (o.komisyon + o.tasima + o.kdv);
+        totNet += o.net;
+      });
+
+      document.getElementById('filtered-orders-count').textContent = totalFiltered;
+      document.getElementById('filtered-orders-gross').textContent = formatCurrency(totGross);
+      document.getElementById('filtered-orders-deduction').textContent = formatCurrency(totDeduction);
+      document.getElementById('filtered-orders-net').textContent = formatCurrency(totNet);
+
+      // Pagination
+      const totalPages = Math.ceil(totalFiltered / ordersPageSize) || 1;
+      if (ordersCurrentPage > totalPages) ordersCurrentPage = totalPages;
+
+      const startIndex = (ordersCurrentPage - 1) * ordersPageSize;
+      const endIndex = Math.min(startIndex + ordersPageSize, totalFiltered);
+      const pageRows = list.slice(startIndex, endIndex);
+
+      pageRows.forEach(o => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+
+        let badgeClass = 'badge-heritage';
+        if (o.platform.includes('Trendyol')) badgeClass = 'badge-trendyol';
+        else if (o.platform.includes('Yemeksepeti')) badgeClass = 'badge-yemeksepeti';
+
+        const isCancel = o.durum === 'İptal';
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 text-slate-300 font-mono text-[11px]">${o.tarih}</td>
+          <td class="py-2.5 px-3">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${badgeClass}">
+              ${o.platform}
+            </span>
+          </td>
+          <td class="py-2.5 px-3 font-mono text-slate-200 font-semibold text-[11px]">${o.sip_no}</td>
+          <td class="py-2.5 px-3 max-w-[280px] truncate text-slate-300" title="${o.urunler}">${o.urunler}</td>
+          <td class="py-2.5 px-3 text-right font-medium text-slate-200">${formatCurrency(o.tutar)}</td>
+          <td class="py-2.5 px-3 text-right text-slate-400">${formatCurrency(o.komisyon)}</td>
+          <td class="py-2.5 px-3 text-right text-slate-400">${formatCurrency(o.tasima)}</td>
+          <td class="py-2.5 px-3 text-right font-bold ${isCancel ? 'text-slate-500' : 'text-emerald-400'}">${formatCurrency(o.net)}</td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="px-1.5 py-0.5 rounded text-[10px] ${o.kesinti_pct > 0 ? 'bg-rose-500/10 text-rose-300 font-bold' : 'bg-slate-800 text-slate-400'}">
+              %${o.kesinti_pct}
+            </span>
+          </td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isCancel ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'}">
+              ${o.durum}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Pagination Controls
+      document.getElementById('orders-pagination-info').textContent = 
+        totalFiltered === 0 ? 'Kayıt bulunamadı' : `${startIndex + 1} - ${endIndex} / ${totalFiltered} gösteriliyor`;
+
+      const pButtons = document.getElementById('orders-pagination-buttons');
+      pButtons.innerHTML = `
+        <button onclick="goToOrdersPage(${ordersCurrentPage - 1})" ${ordersCurrentPage === 1 ? 'disabled class="opacity-40 cursor-not-allowed"' : ''} class="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-semibold">&larr; Önceki</button>
+        <span class="px-3 text-xs font-bold text-amber-400">${ordersCurrentPage} / ${totalPages}</span>
+        <button onclick="goToOrdersPage(${ordersCurrentPage + 1})" ${ordersCurrentPage === totalPages ? 'disabled class="opacity-40 cursor-not-allowed"' : ''} class="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-semibold">Sonraki &rarr;</button>
+      `;
+    }
+
+    function goToOrdersPage(page) {
+      ordersCurrentPage = page;
+      renderOrdersTab();
+    }
+
+    // Render Tab 5: Salary & Profit Simulator
+    function renderSalaryTab() {
+      const tbody = document.getElementById('staff-table-tbody');
+      tbody.innerHTML = '';
+
+      let monthlyTotal = 0;
+
+      staffList.forEach(s => {
+        const rowTotal = s.count * s.salary;
+        const fourMonthTotal = rowTotal * 4;
+        monthlyTotal += rowTotal;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3">
+            <input type="text" value="${s.role}" onchange="updateStaff(${s.id}, 'role', this.value)" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-xs text-slate-200 w-44">
+          </td>
+          <td class="py-3 px-3">
+            <input type="text" value="${s.name}" onchange="updateStaff(${s.id}, 'name', this.value)" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-xs text-slate-200 w-52">
+          </td>
+          <td class="py-3 px-3 text-center">
+            <input type="number" min="1" value="${s.count}" onchange="updateStaff(${s.id}, 'count', parseInt(this.value,10))" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-center text-slate-200 w-16">
+          </td>
+          <td class="py-3 px-3 text-right">
+            <input type="number" step="1000" value="${s.salary}" onchange="updateStaff(${s.id}, 'salary', parseFloat(this.value))" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-xs text-right text-amber-400 font-bold w-28">
+          </td>
+          <td class="py-3 px-3 text-right font-bold text-rose-400">${formatCurrency(rowTotal)}</td>
+          <td class="py-3 px-3 text-right font-bold text-slate-300">${formatCurrency(fourMonthTotal)}</td>
+          <td class="py-3 px-3 text-center">
+            <button onclick="deleteStaffRow(${s.id})" class="p-1 rounded hover:bg-rose-500/20 text-rose-400 transition" title="Sil">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const totalFourMonths = monthlyTotal * 4;
+      document.getElementById('staff-tfoot-monthly').textContent = formatCurrency(monthlyTotal);
+      document.getElementById('staff-tfoot-total').textContent = formatCurrency(totalFourMonths);
+
+      // Simulator Cards
+      document.getElementById('sim-monthly-salary').textContent = formatCurrency(monthlyTotal);
+      document.getElementById('sim-total-salary').textContent = formatCurrency(totalFourMonths);
+
+      const netIncomeTotal = 736219.53;
+      const expensesTotal = 328018.05;
+      const faaliyetKar = netIncomeTotal - expensesTotal; // 408201.48
+      const finalProfit = faaliyetKar - totalFourMonths;
+      const finalMargin = ((finalProfit / netIncomeTotal) * 100).toFixed(1);
+
+      document.getElementById('sim-final-net-profit').textContent = formatCurrency(finalProfit);
+      document.getElementById('sim-final-margin').textContent = '%' + finalMargin.replace('.', ',') + ' Net Kâr Marjı';
+
+      document.getElementById('bridge-salary-val').textContent = formatCurrency(totalFourMonths);
+      document.getElementById('bridge-net-profit').textContent = `${formatCurrency(finalProfit)} (%${finalMargin.replace('.', ',')})`;
+
+      // Also trigger KPI update on finance tab
+      renderFinanceTab();
+      lucide.createIcons();
+    }
+
+    function updateStaff(id, field, value) {
+      const staff = staffList.find(s => s.id === id);
+      if (staff) {
+        staff[field] = value;
+        renderSalaryTab();
+      }
+    }
+
+    function addStaffRow() {
+      const newId = Date.now();
+      staffList.push({
+        id: newId,
+        role: 'Yeni Personel',
+        name: 'Mutfak / Servis Yardımcısı',
+        count: 1,
+        salary: 17002
+      });
+      renderSalaryTab();
+    }
+
+    function deleteStaffRow(id) {
+      if (staffList.length <= 1) {
+        alert('En az 1 personel bulunmalıdır.');
+        return;
+      }
+      staffList = staffList.filter(s => s.id !== id);
+      renderSalaryTab();
+    }
+
+    // Chart.js Instances
+    let monthlyChartInst = null;
+    let channelsChartInst = null;
+
+    function updateMonthlyChart() {
+      const ctx = document.getElementById('monthlyChart').getContext('2d');
+      const monthlySalary = getMonthlySalaryTotal();
+
+      const labels = ['Temmuz 2026', 'Ağustos 2026', 'Eylül 2026', 'Ekim 2026'];
+      const gelirData = [195829.52, 174299.55, 213578.46, 152512.00];
+      const giderData = [90426.92 + monthlySalary, 85985.00 + monthlySalary, 101362.98 + monthlySalary, 50243.15 + monthlySalary];
+      const netKarData = gelirData.map((g, i) => g - giderData[i]);
+
+      if (monthlyChartInst) monthlyChartInst.destroy();
+
+      monthlyChartInst = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Net Gelir (Hakediş)',
+              data: gelirData,
+              backgroundColor: 'rgba(16, 185, 129, 0.7)',
+              borderColor: '#10b981',
+              borderWidth: 1,
+              borderRadius: 6
+            },
+            {
+              label: 'Toplam Gider (İşletme + Maaş)',
+              data: giderData,
+              backgroundColor: 'rgba(239, 68, 68, 0.7)',
+              borderColor: '#ef4444',
+              borderWidth: 1,
+              borderRadius: 6
+            },
+            {
+              label: 'Nihai Net Kâr',
+              data: netKarData,
+              backgroundColor: 'rgba(212, 175, 55, 0.85)',
+              borderColor: '#d4af37',
+              borderWidth: 1,
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: '#cbd5e1', font: { family: 'Plus Jakarta Sans', size: 11 } }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(c) {
+                  return c.dataset.label + ': ' + formatCurrency(c.raw);
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 11 } },
+              grid: { color: 'rgba(51, 65, 85, 0.2)' }
+            },
+            y: {
+              ticks: { 
+                color: '#94a3b8', 
+                font: { family: 'Plus Jakarta Sans', size: 11 },
+                callback: function(v) { return (v / 1000) + 'k ₺'; }
+              },
+              grid: { color: 'rgba(51, 65, 85, 0.2)' }
+            }
+          }
+        }
+      });
+    }
+
+    function updateChannelsChart() {
+      const ctx = document.getElementById('channelsChart').getContext('2d');
+      if (channelsChartInst) channelsChartInst.destroy();
+
+      channelsChartInst = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Kasa (Dükkan İçi)', 'Trendyol Go', 'Yemeksepeti'],
+          datasets: [{
+            data: [629127, 90796.43, 16296.10],
+            backgroundColor: [
+              'rgba(212, 175, 55, 0.85)',
+              'rgba(249, 115, 22, 0.85)',
+              'rgba(239, 68, 68, 0.85)'
+            ],
+            borderColor: '#12161f',
+            borderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#cbd5e1', font: { family: 'Plus Jakarta Sans', size: 11 }, padding: 15 }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(c) {
+                  const val = c.raw;
+                  const total = 736219.53;
+                  const pct = ((val / total) * 100).toFixed(1);
+                  return ` ${c.label}: ${formatCurrency(val)} (%${pct})`;
+                }
+              }
+            }
+          },
+          cutout: '68%'
+        }
+      });
+    }
+
+    // Export Orders Table to CSV
+    function exportOrdersToCSV() {
+      let csv = 'TARİH;PLATFORM;SİPARİŞ NO;ÜRÜNLER;TUTAR;KOMİSYON;TAŞIMA/HİZMET;NET HAKEDİŞ;KESİNTİ %;DURUM\\n';
+      DATA.orders.forEach(o => {
+        const row = [
+          o.tarih,
+          o.platform,
+          o.sip_no,
+          '"' + o.urunler.replace(/"/g, '""') + '"',
+          o.tutar,
+          o.komisyon,
+          o.tasima,
+          o.net,
+          o.kesinti_pct,
+          o.durum
+        ].join(';');
+        csv += row + '\\n';
+      });
+
+      const blob = new Blob(["\\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'Heritage_Siparis_Listesi.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function exportTableToCSV() {
+      exportOrdersToCSV();
+    }
+
+    // Copy Video Script
+    function copyScript(id) {
+      const scripts = {
+        1: `Video 1: Çikolata Şelalesi & New York Cookie\\nHook: Ankara'da gerçek Belçika çikolatasıyla yapılan kurabiyeyi gördünüz mü?\\nGörsel: Kurabiye ikiye ayrılır, içinden akışkan sıcak fıstık/Lotus kreması süzülür.\\nCTA: Tatlı krizine gireceğin arkadaşına gönder! 📍 Reşit Galip No:18 Çankaya`,
+        2: `Video 2: Sabah 07:00'de Çankaya Fırını\\nHook: Güne bu kokuyla başlamak isteyenler Ankara'da toplanıyor...\\nGörsel: Focaccia hamuruna zeytinyağı ve biberiye basılışı, taş fırından çıkışı.\\nCTA: Taze fırından çıktığında yakalamak için hemen uğra!`,
+        3: `Video 3: Pesto Soslu Çıtır Focaccia Tost\\nHook: Böyle uzayan bir peyniri daha önce Ankara'da görmediniz!\\nGörsel: Çıtır kızarmış focaccia tost ikiye kesilir ve uzatılır.\\nCTA: Tost sevdalısı arkadaşını etiketle!`,
+        4: `Video 4: 60 TL'ye El Açması Çıtır Samsa!\\nHook: Ankara'da 60 TL'ye böyle bir çıtırlık kaldı mı?\\nGörsel: Samsa tül gibi açılır, tereyağı sürülür, fırından çıkar.\\nCTA: Hemen kaydet, çayın yanında mutlaka dene!`,
+        5: `Video 5: Çankaya'nın Saklı Çalışma Cenneti\\nHook: Ankara'da laptopunu kapıp saatlerce çalışabileceğin o mekan...\\nGörsel: Laptop, sıcak Americano, dilimlenmiş Tiramisu ve sakin müzik.\\nCTA: Kaydet, bir gün mutlaka lazım olacak!`
+      };
+      navigator.clipboard.writeText(scripts[id]).then(() => {
+        alert('Senaryo panoya kopyalandı!');
+      });
+    }
+
+
+    // ==========================================
+    // AUTHENTICATION & LOGIN MANAGEMENT
+    // ==========================================
+    const VALID_USERS = [
+      { username: 'heritage', password: 'heritage2026', name: 'Heritage Yönetici', role: 'Yönetici' },
+      { username: 'admin', password: 'admin2026', name: 'Sistem Yöneticisi', role: 'Süper Admin' },
+      { username: 'patron', password: '123456', name: 'İşletme Sahibi', role: 'Yönetici' },
+      { username: 'sireen', password: 'heritage2026', name: 'Sireen', role: 'Yönetici' }
+    ];
+
+    function checkAuth() {
+      const authData = localStorage.getItem('heritage_auth') || sessionStorage.getItem('heritage_auth');
+      if (authData) {
+        try {
+          const parsed = JSON.parse(authData);
+          showApp(parsed.username, parsed.name || parsed.username);
+          return true;
+        } catch (e) {
+          clearAuth();
+        }
+      }
+      showLogin();
+      return false;
+    }
+
+    function showLogin() {
+      const loginContainer = document.getElementById('login-container');
+      const appContainer = document.getElementById('app-container');
+      if (loginContainer) loginContainer.classList.remove('hidden');
+      if (appContainer) appContainer.classList.add('hidden');
+      lucide.createIcons();
+    }
+
+    function showApp(username, displayName) {
+      const loginContainer = document.getElementById('login-container');
+      const appContainer = document.getElementById('app-container');
+      if (loginContainer) loginContainer.classList.add('hidden');
+      if (appContainer) appContainer.classList.remove('hidden');
+
+      const userDisplay = document.getElementById('current-user-display');
+      if (userDisplay) {
+        userDisplay.textContent = displayName || username;
+      }
+
+      // Render dashboard tabs
+      renderFinanceTab();
+      renderOrdersTab();
+      renderSalaryTab();
+      lucide.createIcons();
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const uInput = document.getElementById('login-username').value.trim().toLowerCase();
+      const pInput = document.getElementById('login-password').value;
+      const remember = document.getElementById('login-remember').checked;
+      const errBox = document.getElementById('login-error');
+      const errMsg = document.getElementById('login-error-msg');
+
+      const matchedUser = VALID_USERS.find(u => u.username.toLowerCase() === uInput && u.password === pInput);
+
+      if (matchedUser) {
+        errBox.classList.add('hidden');
+        const authObj = {
+          username: matchedUser.username,
+          name: matchedUser.name,
+          role: matchedUser.role,
+          loginAt: new Date().toISOString()
+        };
+
+        if (remember) {
+          localStorage.setItem('heritage_auth', JSON.stringify(authObj));
+        } else {
+          sessionStorage.setItem('heritage_auth', JSON.stringify(authObj));
+        }
+
+        showApp(matchedUser.username, matchedUser.name);
+      } else {
+        errBox.classList.remove('hidden');
+        errMsg.textContent = 'Kullanıcı adı veya şifre hatalı! Lütfen tekrar kontrol edin.';
+        lucide.createIcons();
+
+        // Shake animation
+        const card = document.querySelector('#login-container .glass-card');
+        if (card) {
+          card.classList.add('translate-x-2');
+          setTimeout(() => card.classList.remove('translate-x-2'), 100);
+          setTimeout(() => card.classList.add('-translate-x-2'), 200);
+          setTimeout(() => card.classList.remove('-translate-x-2'), 300);
+        }
+      }
+    }
+
+    function handleLogout() {
+      if (confirm('Heritage Yönetim Portalından çıkış yapmak istediğinize emin misiniz?')) {
+        clearAuth();
+        showLogin();
+        const uInput = document.getElementById('login-username');
+        const pInput = document.getElementById('login-password');
+        if (uInput) uInput.value = '';
+        if (pInput) pInput.value = '';
+      }
+    }
+
+    function clearAuth() {
+      localStorage.removeItem('heritage_auth');
+      sessionStorage.removeItem('heritage_auth');
+    }
+
+    function togglePasswordVisibility() {
+      const pInput = document.getElementById('login-password');
+      const icon = document.getElementById('password-toggle-icon');
+      if (pInput.type === 'password') {
+        pInput.type = 'text';
+        icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        pInput.type = 'password';
+        icon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    function fillDemoCredentials(u, p) {
+      const uInput = document.getElementById('login-username');
+      const pInput = document.getElementById('login-password');
+      if (uInput) uInput.value = u;
+      if (pInput) pInput.value = p;
+      const errBox = document.getElementById('login-error');
+      if (errBox) errBox.classList.add('hidden');
+      const submitBtn = document.getElementById('login-submit-btn');
+      if (submitBtn) submitBtn.focus();
+    }
+
+    function showPasswordHint() {
+      alert('Tanımlı Giriş Bilgileri:\n\nKullanıcı Adı: heritage (veya admin)\nŞifre: heritage2026 (veya admin2026)');
+    }
+
+    // Initial Load
+    window.addEventListener('DOMContentLoaded', () => {
+      checkAuth();
+    });
+  
+    // Forecast State & Scenarios
+    let currentForecastScenario = 'realistic';
+    let forecastChartInst = null;
+
+    const forecastData = {
+      realistic: {
+        months: [
+          { ay: 'Ocak', olay: 'Sömestr Başlangıcı & Kış Ayazı', gelir: 175000, gider: 140000, kar: 35000, status: 'Tahmin', note: 'Sıcak çikolata, salep ve ıhlamur öne çıkar' },
+          { ay: 'Şubat', olay: '15 Tatil & 14 Şubat Sevgililer Günü', gelir: 182000, gider: 142000, kar: 40000, status: 'Tahmin', note: 'Çiftlere özel tatlı ve kurabiye kutusu satışı' },
+          { ay: 'Mart', olay: 'Bahar Uyanışı & Ramazan Başlangıcı', gelir: 172000, gider: 138000, kar: 34000, status: 'Tahmin', note: 'İftarlık focaccia ekmek ve tatlı al-götür' },
+          { ay: 'Nisan', olay: '2. Ara Tatil & Ramazan Bayramı', gelir: 195000, gider: 148000, kar: 47000, status: 'Tahmin', note: 'Bayramlık madlen ve kurabiye kutuları' },
+          { ay: 'Mayıs', olay: 'Anneler Günü & Tedavi Zirvesi', gelir: 215000, gider: 155000, kar: 60000, status: 'Tahmin', note: 'Yaz öncesi tüp bebek hasta trafiğinde patlama' },
+          { ay: 'Haziran', olay: 'Okulların Kapanması & Yaz Başlangıcı', gelir: 188000, gider: 145000, kar: 43000, status: 'Tahmin', note: 'Mezuniyetler, soğuk kahve ve limonata artışı' },
+          { ay: 'Temmuz', olay: 'Yaz Dönemi & Sıcaklar', gelir: 195830, gider: 155427, kar: 40403, status: 'Gerçekleşen', note: 'Gerçekleşen veri (Waffle ve limonata liderliği)' },
+          { ay: 'Ağustos', olay: 'Yaz Rehaveti Dibi (Ankara Boşalması)', gelir: 174300, gider: 150985, kar: 23315, status: 'Gerçekleşen', note: 'Gerçekleşen veri (En düşük ay, yıllık izin dönemi)' },
+          { ay: 'Eylül', olay: 'Okulların & Üniversitelerin Açılışı (ZİRVE)', gelir: 213580, gider: 166363, kar: 47217, status: 'Gerçekleşen', note: 'Gerçekleşen veri (Yılın ciro ve sipariş rekoru)' },
+          { ay: 'Ekim', olay: 'Yoğun Sonbahar Poliklinik Akışı', gelir: 152512, gider: 115243, kar: 37269, status: 'Gerçekleşen', note: 'Gerçekleşen veri (Dengeli klinik ve dış sipariş)' },
+          { ay: 'Kasım', olay: '1. Ara Tatil & Kışa Geçiş', gelir: 186000, gider: 145000, kar: 41000, status: 'Tahmin', note: '1 haftalık ara tatil, sıcak çorba/tost talebi' },
+          { ay: 'Aralık', olay: 'Yılbaşı & Kurumsal Hediye Dönemi', gelir: 202000, gider: 152000, kar: 50000, status: 'Tahmin', note: 'Yeni yıl kurabiye & madlen hediye kutusu zirvesi' }
+        ],
+        totGross: '2.348.000,00 ₺',
+        totNet: '2.151.722,00 ₺',
+        totExp: '1.753.018,00 ₺',
+        totProfit: '398.704,00 ₺',
+        margin: '%18,5'
+      },
+      optimistic: {
+        factor: 1.15,
+        totGross: '2.700.000,00 ₺',
+        totNet: '2.474.000,00 ₺',
+        totExp: '1.890.000,00 ₺',
+        totProfit: '584.000,00 ₺',
+        margin: '%23,6'
+      },
+      pessimistic: {
+        factor: 0.88,
+        totGross: '2.066.000,00 ₺',
+        totNet: '1.893.000,00 ₺',
+        totExp: '1.610.000,00 ₺',
+        totProfit: '283.000,00 ₺',
+        margin: '%14,9'
+      }
+    };
+
+    function setForecastScenario(scen) {
+      currentForecastScenario = scen;
+      document.querySelectorAll('.scen-btn').forEach(btn => {
+        btn.classList.remove('text-purple-400', 'bg-purple-500/15', 'font-semibold');
+        btn.classList.add('text-slate-400', 'font-medium');
+      });
+      const activeBtn = document.getElementById('btn-scen-' + scen);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400', 'font-medium');
+        activeBtn.classList.add('text-purple-400', 'bg-purple-500/15', 'font-semibold');
+      }
+      renderForecastTab();
+    }
+
+    function renderForecastTab() {
+      const scenData = forecastData[currentForecastScenario] || forecastData.realistic;
+      const baseMonths = forecastData.realistic.months;
+
+      let multiplier = 1.0;
+      if (currentForecastScenario === 'optimistic') multiplier = 1.15;
+      else if (currentForecastScenario === 'pessimistic') multiplier = 0.88;
+
+      // Update KPI
+      document.getElementById('fc-gross').textContent = scenData.totGross;
+      document.getElementById('fc-net').textContent = scenData.totNet;
+      document.getElementById('fc-expense').textContent = scenData.totExp;
+      document.getElementById('fc-profit').textContent = scenData.totProfit;
+      document.getElementById('fc-margin').textContent = scenData.margin + ' Yıllık Net Marj';
+
+      // Render Table
+      const tbody = document.getElementById('forecast-table-tbody');
+      if (tbody) {
+        tbody.innerHTML = '';
+        baseMonths.forEach(m => {
+          const isReal = m.status === 'Gerçekleşen';
+          const gel = isReal ? m.gelir : Math.round(m.gelir * multiplier);
+          const gid = isReal ? m.gider : Math.round(m.gider * (multiplier > 1 ? (1 + (multiplier - 1)*0.6) : (1 - (1 - multiplier)*0.6)));
+          const kar = gel - gid;
+
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-800/40 transition';
+          tr.innerHTML = `
+            <td class="py-3 px-3 font-bold text-white">${m.ay}</td>
+            <td class="py-3 px-3 text-slate-300 font-medium">${m.olay}</td>
+            <td class="py-3 px-3 text-right font-bold text-slate-100">${formatCurrency(gel)}</td>
+            <td class="py-3 px-3 text-right text-rose-400 font-medium">${formatCurrency(gid)}</td>
+            <td class="py-3 px-3 text-right font-extrabold ${kar >= 0 ? 'text-emerald-400' : 'text-red-400'}">${formatCurrency(kar)}</td>
+            <td class="py-3 px-3 text-center">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${isReal ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'}">
+                ${m.status}
+              </span>
+            </td>
+            <td class="py-3 px-3 text-slate-400 text-[11px]">${m.note}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Update Forecast Chart
+      updateForecastChart(multiplier);
+    }
+
+    function updateForecastChart(multiplier) {
+      const canvas = document.getElementById('forecastChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (forecastChartInst) forecastChartInst.destroy();
+
+      const labels = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+      const baseMonths = forecastData.realistic.months;
+      
+      const gelirVals = baseMonths.map(m => m.status === 'Gerçekleşen' ? m.gelir : Math.round(m.gelir * multiplier));
+      const karVals = baseMonths.map((m, idx) => {
+        const isReal = m.status === 'Gerçekleşen';
+        const gid = isReal ? m.gider : Math.round(m.gider * (multiplier > 1 ? (1 + (multiplier - 1)*0.6) : (1 - (1 - multiplier)*0.6)));
+        return gelirVals[idx] - gid;
+      });
+
+      const backgroundColors = baseMonths.map(m => m.status === 'Gerçekleşen' ? 'rgba(16, 185, 129, 0.75)' : 'rgba(168, 85, 247, 0.75)');
+      const borderColors = baseMonths.map(m => m.status === 'Gerçekleşen' ? '#10b981' : '#a855f7');
+
+      forecastChartInst = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              type: 'bar',
+              label: 'Aylık Net Gelir (₺)',
+              data: gelirVals,
+              backgroundColor: backgroundColors,
+              borderColor: borderColors,
+              borderWidth: 1.5,
+              borderRadius: 6
+            },
+            {
+              type: 'line',
+              label: 'Aylık Net Kâr Eğrisi (₺)',
+              data: karVals,
+              borderColor: '#f59e0b',
+              backgroundColor: 'rgba(245, 158, 11, 0.2)',
+              borderWidth: 3,
+              tension: 0.35,
+              fill: false,
+              pointRadius: 4,
+              pointBackgroundColor: '#f59e0b'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: '#cbd5e1', font: { family: 'Plus Jakarta Sans', size: 11 } }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(c) {
+                  return c.dataset.label + ': ' + formatCurrency(c.raw);
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 11 } },
+              grid: { color: 'rgba(51, 65, 85, 0.2)' }
+            },
+            y: {
+              ticks: { 
+                color: '#94a3b8', 
+                font: { family: 'Plus Jakarta Sans', size: 11 },
+                callback: function(v) { return (v / 1000) + 'k ₺'; }
+              },
+              grid: { color: 'rgba(51, 65, 85, 0.2)' }
+            }
+          }
+        }
+      });
+    }
+
+  </script>
+</body>
+</html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("Generated index.html successfully! File size:", len(html_content))
