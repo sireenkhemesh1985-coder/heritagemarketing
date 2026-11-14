@@ -67,3 +67,10 @@ streamlit run streamlit_app.py
 * **Frontend:** Tailwind CSS, Chart.js, Lucide Icons, Vanilla ES6+
 * **Backend / Runner:** Python 3 (HTTP Server / Streamlit), openpyxl, pandas
 * **Veri:** `portal_data.json` / `portal_data.js` (Heritage_Cafe_Muhasebe.xlsx kaynağından derlenmiş)
+
+---
+
+## 🏛️ Proje Künyesi & Telif Hakkı
+
+> **Conceived & Directed by Sireen Khemesh**  
+> *© 2026 ZEUS Bioscience. All rights reserved*

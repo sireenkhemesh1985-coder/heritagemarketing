@@ -221,6 +221,16 @@ html_content = """<!DOCTYPE html>
           </div>
         </div>
       </div>
+
+      <!-- Credits & Copyright -->
+      <div class="text-center pt-3 border-t border-slate-800/80 space-y-1">
+        <p class="text-xs font-semibold text-slate-300 tracking-wide">
+          Conceived &amp; Directed by <span class="text-amber-400 font-bold">Sireen Khemesh</span>
+        </p>
+        <p class="text-[11px] text-slate-500 font-medium">
+          &copy; 2026 ZEUS Bioscience. All rights reserved
+        </p>
+      </div>
     </div>
   </div>
 
@@ -3391,16 +3401,23 @@ html_content = """<!DOCTYPE html>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-[#0d1117]">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <div>
-        <p class="font-semibold text-slate-300">Heritage Cafe & Bakery · 100. Yıl, Reşit Galip Cd. No:18, Çankaya/ANKARA</p>
+  <footer class="border-t border-slate-800 py-6 text-xs text-slate-500 bg-[#0d1117]">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="text-center md:text-left">
+        <p class="font-semibold text-slate-300">Heritage Cafe &amp; Bakery • 100. Yıl, Reşit Galip Cd. No:18, Çankaya/ANKARA</p>
         <p class="text-slate-500 text-[11px] mt-0.5">
-          Çalışma Saatleri: H.içi 08:00 – 18:00 | Cmt 08:00 – 15:00 | Pazar Kapalı · Tel: 0 534 592 70 12 · 
-          <a href="https://heritagecafe.com.tr" target="_blank" class="text-amber-400 underline">heritagecafe.com.tr</a>
+          Çalışma Saatleri: H.içi 08:00 – 18:00 | Cmt 08:00 – 15:00 | Pazar Kapalı • Tel: 0 534 592 70 12 • 
+          <a href="https://heritagecafe.com.tr" target="_blank" class="text-amber-400 underline hover:text-amber-300">heritagecafe.com.tr</a>
         </p>
       </div>
-      <p class="text-slate-400 font-medium">"El Emeğiyle Yaşatılan Lezzetler · Save the Heritage"</p>
+      <div class="text-center md:text-right space-y-1">
+        <p class="text-xs font-semibold text-slate-300 tracking-wide">
+          Conceived &amp; Directed by <span class="text-amber-400 font-bold">Sireen Khemesh</span>
+        </p>
+        <p class="text-[11px] text-slate-500 font-medium">
+          &copy; 2026 ZEUS Bioscience. All rights reserved
+        </p>
+      </div>
     </div>
   </footer>
   </div><!-- End #app-container -->
