@@ -17,7 +17,7 @@ Thumbs.db
 # Temporary run logs
 *.log
 
-# Scratch inspection scripts
+# Scratch scripts
 find_*
 inspect_*
 read_*
@@ -25,3 +25,6 @@ check_*
 verify_*
 show_*
 fetch_*
+test_*
+apply_*
+download_*
