@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary run logs
+*.log
+
+# Scratch inspection scripts
+find_*
+inspect_*
+read_*
+check_*
+verify_*
+show_*
+fetch_*
