@@ -9,6 +9,7 @@ import webbrowser
 import threading
 import time
 import os
+import sys
 
 PORT = 8080
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -35,10 +36,17 @@ if __name__ == "__main__":
     print(f" Web Portalı: http://localhost:{PORT}/index.html")
     print("=" * 60)
     
-    threading.Thread(target=open_browser, daemon=True).start()
+    # Sadece parametre ile veya doğrudan çalıştırıldığında tarayıcı aç
+    if "--no-browser" not in sys.argv:
+        threading.Thread(target=open_browser, daemon=True).start()
     
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print("\nSunucu kapatıldı.")
+        while True:
+            try:
+                httpd.serve_forever()
+            except KeyboardInterrupt:
+                print("\nSunucu kullanıcı tarafından kapatıldı.")
+                break
+            except Exception as e:
+                # Bağlantı sıfırlanması veya sekme kapanması durumunda sunucunun çökmesini engelle
+                time.sleep(0.5)
